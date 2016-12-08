@@ -9,8 +9,6 @@ output:
 knitr::opts_chunk$set(cache = TRUE, warning = FALSE, echo = FALSE)
 ```
 
-## Topic ~ Sentiment
-
 ### General introduction of this step
 Finally, we get the step to find out whether there is a relationship between a video game’s type and the sentiment word which would be used in the game review. Through this approach, we want to testify: 1. The topic model we built is effective or not; 2. Whether different sentiment words would play different roles when users evaluate different kinds of games.
 
@@ -442,7 +440,7 @@ ggplot(filter(Topic4_text_sentTfidf_plt, sentiment %in% c("anticipation", "joy",
 Then we used GAM model, which is proved to be the best model in previous analysis, to testify these relationships. What we should notice at first is that the models built for “social” and “achieve” types of games are better according to the MSE and RSquare value. But since the datasets are not so big after we make the division about these types, we think these four models are all acceptable. Through the comparison, we found that positive feelings are more important for the “explore” types of video games, while negative feelings play the weakest role for the evaluation. This finding can be understood since for people who enjoy exploration, they would probably get ready for facing different unknown situation. Compared with avoiding the negative feeling, they are more likely to value the positive feelings by open themselves to all kinds of situations. While for the “killer” types, negative feelings are more important for the evaluation, and it becomes more interesting when we see the subtype of negative feelings’ influence on the evaluation of “killer” types of games. Apparently this strong negative relationships are because of “anger” or “fear”, in fact the evaluation would not be influenced by these two negative feelings at all. So the thing is that users would not feel less satisfied if they feel angry or fear when they plays “killer” types of game, but feeling of sadness would significantly influence on their evaluation. We didn’t find much interesting things about the “social” type of games, which may result from the fact that the topic 1 we got from the topic model could be not so accurate.
 
 
-### "Social"" type's Model
+### "Social" type's Model
 
 ```{r, echo=FALSE, warning=FALSE, message = FALSE}
 Topic1_text_sentTfidf <- Topic1_text_sentTfidf %>%
