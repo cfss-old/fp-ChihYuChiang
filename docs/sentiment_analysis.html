@@ -11,7 +11,7 @@
 
 
 
-<title></title>
+<title>Sentiment Analysis</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -306,6 +306,7 @@ div.tocify {
 
 
 
+<h1 class="title toc-ignore">Sentiment Analysis</h1>
 
 </div>
 
@@ -315,30 +316,11 @@ div.tocify {
 <div id="general-word" class="section level3">
 <h3>General Word</h3>
 <p>First, a text cloud for all observations is drawn to provide a general picture of the text body. Unsurprisingly, the most common word used in the corpus is game itself, followed by game characteristic words like story, challenge, characters, world, and play.</p>
-<pre class="r"><code>text_count &lt;- text_tidy %&gt;%
-  count(word, sort = TRUE) %&gt;%
-  with(wordcloud(word, n, max.words = 200, colors = brewer.pal(8, &quot;Dark2&quot;), random.order = FALSE))</code></pre>
 <p><img src="sentiment_analysis_files/figure-html/Text%20cloud%20-%20all-1.png" width="672" /></p>
-<pre class="r"><code>text_count &lt;- text_tidy %&gt;%
-  count(word, sort = TRUE) %&gt;%
-  arrange(desc(n)) %&gt;%
-  head(20) %&gt;%
-  ggplot(aes(word,n))+
-  geom_bar(stat = &quot;identity&quot;)+
-  ggtitle(&quot;The most frequent word in game review-top20&quot;)+
-  ylab (&quot;amount&quot;)+
-  xlab (&quot;word&quot;)+
-  coord_flip()</code></pre>
 </div>
 <div id="word-frequency-by-tfidf" class="section level3">
 <h3>Word frequency by Tfidf</h3>
-<p>Tf-idf index is applied to measure how much information a word provides. With this method we can get rid of most general words which are not specific for game reviews, and focus on those words which carry special meanings for video games.</p>
-<pre class="r"><code>ggplot(text_tfidf[1 : 20,], aes(word, tf_idf)) +
-  geom_bar(alpha = 0.8, stat = &quot;identity&quot;) +
-  labs(title = &quot;Highest tf-idf words in All Game Reviews&quot;,
-       x = NULL, y = &quot;tf-idf&quot;) +
-  coord_flip()</code></pre>
-<p><img src="sentiment_analysis_files/figure-html/word%20frequency%20by%20Tfidf-1.png" width="672" /></p>
+<p>Tf-idf index is applied to measure how much information a word provides. With this method we can get rid of most general words which are not specific for game reviews, and focus on those words which carry special meanings for video games. <img src="sentiment_analysis_files/figure-html/word%20frequency%20by%20Tfidf-1.png" width="672" /></p>
 </div>
 <div id="sentiment-word" class="section level3">
 <h3>Sentiment Word</h3>

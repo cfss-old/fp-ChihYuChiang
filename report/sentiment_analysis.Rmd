@@ -1,11 +1,12 @@
 ---
+title: "Sentiment Analysis"
 output:
   html_document:
     toc: true
     toc_float: true
 ---
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(cache = TRUE, warning = FALSE)
+knitr::opts_chunk$set(cache = TRUE, warning = FALSE, echo = FALSE)
 ```
 
 ```{r include=FALSE}
@@ -37,14 +38,14 @@ games_lda <- read_feather("../data/games_lda.feather")
 
 First, a text cloud for all observations is drawn to provide a general picture of the text body. Unsurprisingly, the most common word used in the corpus is game itself, followed by game characteristic words like story, challenge, characters, world, and play.
 
-```{r Text cloud - all}
+```{r Text cloud - all,  echo=FALSE}
 text_count <- text_tidy %>%
   count(word, sort = TRUE) %>%
   with(wordcloud(word, n, max.words = 200, colors = brewer.pal(8, "Dark2"), random.order = FALSE))
 ```
 
 
-```{r word_frequency, warning=FALSE}
+```{r word_frequency,  echo=FALSE, warning=FALSE}
 text_count <- text_tidy %>%
   count(word, sort = TRUE) %>%
   arrange(desc(n)) %>%
@@ -60,7 +61,7 @@ text_count <- text_tidy %>%
 ### Word frequency by Tfidf
 
 Tf-idf index is applied to measure how much information a word provides. With this method we can get rid of most general words which are not specific for game reviews, and focus on those words which carry special meanings for video games.
-```{r word frequency by Tfidf, warning=FALSE}
+```{r word frequency by Tfidf,  echo=FALSE, warning=FALSE}
 ggplot(text_tfidf[1 : 20,], aes(word, tf_idf)) +
   geom_bar(alpha = 0.8, stat = "identity") +
   labs(title = "Highest tf-idf words in All Game Reviews",
