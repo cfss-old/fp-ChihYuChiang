@@ -316,22 +316,22 @@ div.tocify {
 <div id="general-word" class="section level3">
 <h3>General Word</h3>
 <p>First, a text cloud for all observations is drawn to provide a general picture of the text body. Unsurprisingly, the most common word used in the corpus is game itself, followed by game characteristic words like story, challenge, characters, world, and play.</p>
-<p><img src="sentiment_analysis_files/figure-html/Text%20cloud%20-%20all-1.png" width="672" /></p>
+<p><img src="sentiment_analysis_files/figure-html/Text cloud - all-1.png" width="672" /></p>
 </div>
 <div id="word-frequency-by-tfidf" class="section level3">
 <h3>Word frequency by Tfidf</h3>
-<p>Tf-idf index is applied to measure how much information a word provides. With this method we can get rid of most general words which are not specific for game reviews, and focus on those words which carry special meanings for video games. <img src="sentiment_analysis_files/figure-html/word%20frequency%20by%20Tfidf-1.png" width="672" /></p>
+<p>Tf-idf index is applied to measure how much information a word provides. With this method we can get rid of most general words which are not specific for game reviews, and focus on those words which carry special meanings for video games. <img src="sentiment_analysis_files/figure-html/word frequency by Tfidf-1.png" width="672" /></p>
 </div>
 <div id="sentiment-word" class="section level3">
 <h3>Sentiment Word</h3>
 <p>Then, the bar plot revealing sentiment word frequeny and text clouds of positive and negative words are drawn to provide a general sentimental picture of the text body. One thing worth mention here is that the word stemming process is also applied to the emotion dictionary, nrc, which is used as the source of text’s emotional categorization in this analysis. With stemming processing, words are gathered by word family and their frequency and importance indicators like tfidf provide more precise information. Moreover, we should notice that words which are considered standing for negative sentiment in the traditional way may not be that negative in game reviews. For instance, “attack” could simply mean how the game could be played without any negative feelings.</p>
-<p><img src="sentiment_analysis_files/figure-html/word%20frequency%20bar%20sentiment-1.png" width="672" /></p>
-<p><img src="sentiment_analysis_files/figure-html/sentiment%20word%20cloud-1.png" width="672" /><img src="sentiment_analysis_files/figure-html/sentiment%20word%20cloud-2.png" width="672" /></p>
+<p><img src="sentiment_analysis_files/figure-html/word frequency bar sentiment-1.png" width="672" /></p>
+<p><img src="sentiment_analysis_files/figure-html/sentiment word cloud-1.png" width="672" /><img src="sentiment_analysis_files/figure-html/sentiment word cloud-2.png" width="672" /></p>
 </div>
 <div id="sentiment-intensity" class="section level3">
 <h3>Sentiment Intensity</h3>
 <p>Examining sentiments expressed by the text, a bar chart is drawn according to the frequency of each type of sentiment words. The strongst sentiment expressed in the text is trust, which well illustrates one of video games nature that they require group works and emphasize character strength which is dependable and can be trusted by other players.</p>
-<p>The emotions are divided into positive ones, like trust and joy, colored in red, and negative ones, like fear and anger, colored in blue. An interesting fact is the well-balanceed positive and negative sentiments expressed in game reviews. Quite opposite to common expectation in games that they provide joy and make people happy, games, indeed, also produce negative emotions. Not only positive and negative words used are similar in number, but also they alternate in the sentiment intensity ranking as shown in the graph. <img src="sentiment_analysis_files/figure-html/Sentiment%20Intensity-1.png" width="672" /></p>
+<p>The emotions are divided into positive ones, like trust and joy, colored in red, and negative ones, like fear and anger, colored in blue. An interesting fact is the well-balanceed positive and negative sentiments expressed in game reviews. Quite opposite to common expectation in games that they provide joy and make people happy, games, indeed, also produce negative emotions. Not only positive and negative words used are similar in number, but also they alternate in the sentiment intensity ranking as shown in the graph. <img src="sentiment_analysis_files/figure-html/Sentiment Intensity-1.png" width="672" /></p>
 <p>By averaging tfidf index of each word, emotional words are ranked. As we can see in the following tables, the top words are generally with more specific meaning than the ones produced by frequency. For positive words, Words like doll, presto, and kiss replace fun and time; for negative words, alien, curs and betray replace kill and combat.</p>
 <table>
 <thead>
@@ -424,18 +424,13 @@ div.tocify {
 <div id="general-description" class="section level3">
 <h3>General Description</h3>
 <p>Exploratory relationship between different emotions and general evaluation scores is examined. Let’s see the general description using plots about this question first. In this process, we divide all video games into 3 kinds based on the evaluation score: those games whose scores are above 8.5 are considered as “high”; those games whose scores are below 5 are considered as “low”; the rest are considered as medium.</p>
-<p>As we can see, there are more positive words in “high” games’ reviews, which is corresponded with our expectation. <img src="sentiment_analysis_files/figure-html/positive-negative%20bar-1.png" width="672" /> As for more specific kinds of sentiments, we also get different patterns among different kinds of games based on the evaluation scores. For high-scored games, there are more words related with trust, anticipation, joy, and less words related with anger comared with low-scored games. <img src="sentiment_analysis_files/figure-html/sentiment-score%20comparison-1.png" width="672" /><img src="sentiment_analysis_files/figure-html/sentiment-score%20comparison-2.png" width="672" /></p>
+<p>As we can see, there are more positive words in “high” games’ reviews, which is corresponded with our expectation. <img src="sentiment_analysis_files/figure-html/positive-negative bar-1.png" width="672" /> As for more specific kinds of sentiments, we also get different patterns among different kinds of games based on the evaluation scores. For high-scored games, there are more words related with trust, anticipation, joy, and less words related with anger comared with low-scored games. <img src="sentiment_analysis_files/figure-html/sentiment-score comparison-1.png" width="672" /><img src="sentiment_analysis_files/figure-html/sentiment-score comparison-2.png" width="672" /></p>
 </div>
 <div id="explore-the-relationship" class="section level3">
 <h3>Explore the relationship</h3>
 <p>Then we tried to get the basic idea about the relationship between sentiment word and evaluation scores. As expected, we can observe a positive relationship between positive emotion and games’ evaluation score, as well as a negative one between negative emotion and games’ evaluation score. On top of that, The smoothing line reveals somewhat curvature relationships between the variable pairs.</p>
-<pre><code>## `geom_smooth()` using method = &#39;gam&#39;</code></pre>
-<p><img src="sentiment_analysis_files/figure-html/relationship%20plot-PN-1.png" width="672" /> Digging deeper into it, the relationships seem less obvious when dividing positive and negative emotions into sub-categories. For negative emotions, anger and disgust appear to be relative influential ones, however the effects still not so strong.</p>
-<p>On the other hand, we observe a slightly stronger effects of sub-category positive emotions, such as joy and trust, on the general evaluation scores.</p>
-<pre><code>## `geom_smooth()` using method = &#39;gam&#39;</code></pre>
-<p><img src="sentiment_analysis_files/figure-html/relationship%20plot-more%20sentiments-1.png" width="672" /></p>
-<pre><code>## `geom_smooth()` using method = &#39;gam&#39;</code></pre>
-<p><img src="sentiment_analysis_files/figure-html/relationship%20plot-more%20sentiments-2.png" width="672" /></p>
+<p><img src="sentiment_analysis_files/figure-html/relationship plot-PN-1.png" width="672" /> Digging deeper into it, the relationships seem less obvious when dividing positive and negative emotions into sub-categories. For negative emotions, anger and disgust appear to be relative influential ones, however the effects still not so strong.</p>
+<p>On the other hand, we observe a slightly stronger effects of sub-category positive emotions, such as joy and trust, on the general evaluation scores. <img src="sentiment_analysis_files/figure-html/relationship plot-more sentiments-1.png" width="672" /><img src="sentiment_analysis_files/figure-html/relationship plot-more sentiments-2.png" width="672" /></p>
 </div>
 </div>
 <div id="model-building" class="section level2">
@@ -644,15 +639,6 @@ div.tocify {
 <h2>General additive model</h2>
 <p>Due to the curved fitting line we observed in the previous exploratory section, general additive model is adopted for non-linear relationship modeling. The result is quite similar to that of linear regression model, however, it does provide better fits to several of the sub-category emotions. In the second GAM model, all the sub-categories of the positive and negative emotions show significance.</p>
 <p>Nevertheless, somewhat surprisingly, the GAM model presents a slightly lower R squared value and a slightly higher MSE than the linear model. For these, we wouldn’t be able to say that the GAM models are superior to the linear models in this context, especially non-linears models are generally much worse at providing reasonable inference of the relationships between variables.</p>
-<pre><code>## Loading required package: gam</code></pre>
-<pre><code>## Loading required package: splines</code></pre>
-<pre><code>## Loading required package: foreach</code></pre>
-<pre><code>## 
-## Attaching package: &#39;foreach&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:purrr&#39;:
-## 
-##     accumulate, when</code></pre>
-<pre><code>## Loaded gam 1.14</code></pre>
 <ul>
 <li><p><strong>parametric.anova</strong>:</p>
 <table style="width:100%;">

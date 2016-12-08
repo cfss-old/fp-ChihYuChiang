@@ -13,7 +13,7 @@ library(caret)
 library(stringr)
 library(feather)
 
-#import data
+# Import data
 genre_tidy <- read_feather("./data/genre_tidy.feather")
 text_tidy <- read_feather("./data/text_tidy.feather")
 text_tfidf <- read_feather("./data/text_tfidf.feather")
@@ -21,6 +21,8 @@ text_raw <- read_feather("./data/text_raw.feather")
 games_lda <- read_feather("./data/games_lda.feather")
 text_sentTfidf <- read_feather("./data/text_sentTfidf.feather")
 
+# Create topic sub groups
+# (We know we can do for loops here, but I believe you understand, we really don't have time for that..)
 topic_generaldata <- text_sentTfidf %>%
   left_join(games_lda, c("GameTitle" = "document"))
 
@@ -83,7 +85,8 @@ bing <-  get_sentiments("bing") %>%
   mutate(word = wordStem(word)) %>%
   distinct()
 
-## Including Plots
+# Sentiment exploration by topics
+# Get the plot about the sentiment word most frequently used in game reviews
 Topic1_bing_word_counts <- Topic1_text %>%
   inner_join(bing, by = "word") %>%
   count(word, sentiment, sort = TRUE) %>%
@@ -99,7 +102,6 @@ Topic1_bing_word_counts %>%
        x = "Social") +
   coord_flip()
 
-#get the plot about the sentiment word most frequently used in game reviews
 Topic2_bing_word_counts <- Topic2_text %>%
   inner_join(bing, by = "word") %>%
   count(word, sentiment, sort = TRUE) %>%
@@ -115,7 +117,6 @@ Topic2_bing_word_counts %>%
        x = "Achieve") +
   coord_flip()
 
-#get the plot about the sentiment word most frequently used in game reviews
 Topic3_bing_word_counts <- Topic3_text %>%
   inner_join(bing, by = "word") %>%
   count(word, sentiment, sort = TRUE) %>%
@@ -131,7 +132,6 @@ Topic3_bing_word_counts %>%
        x = "Explore") +
   coord_flip()
 
-#get the plot about the sentiment word most frequently used in game reviews
 Topic4_bing_word_counts <- Topic4_text %>%
   inner_join(bing, by = "word") %>%
   count(word, sentiment, sort = TRUE) %>%
@@ -399,12 +399,12 @@ Topic1_text_sentTfidf <- Topic1_text_sentTfidf %>%
                             c(0, mean(text_sentTfidf$GSScore), 10),
                             labels = c("Low", "High")))
 
-# Divide training and testing groups
+# Divide training and testing groups, apply 5-fold cross validation, repeat 10 times
 Topic1_inTraining <- resample_partition(Topic1_text_sentTfidf, c(testing = 0.3, training = 0.7))
 Topic1_training <- Topic1_inTraining$training %>% tbl_df()
 Topic1_testing <- Topic1_inTraining$testing %>% tbl_df()
 
-# 5-fold cross validation, repeat 10 times
+
 fitControl <- trainControl(
   method = "repeatedcv",
   number = 5,

@@ -222,7 +222,7 @@ text_sent_nrc %>%
 
 Then we tried to get the basic idea about the relationship between sentiment word and evaluation scores. As expected, we can observe a positive relationship between positive emotion and games' evaluation score, as well as a negative one between negative emotion and games' evaluation score. On top of that, The smoothing line reveals somewhat curvature relationships between the variable pairs. 
 
-```{r relationship plot-PN,  echo=FALSE, warning=FALSE}
+```{r relationship plot-PN,  echo=FALSE, warning=FALSE, message = FALSE}
 # Calculate sentiment tf_idfscore by game, 
 text_sentTfidf <- text_tfidf %>%
   left_join(text_sentCount, by = "word") %>%
@@ -246,7 +246,7 @@ ggplot(filter(text_sentTfidf_plt, sentiment %in% c("positive", "negative")),
 Digging deeper into it, the relationships seem less obvious when dividing positive and negative emotions into sub-categories. For negative emotions, anger and  disgust appear to be relative influential ones, however the effects still not so strong.
 
 On the other hand, we observe a slightly stronger effects of sub-category positive emotions, such as joy and trust, on the general evaluation scores.
-```{r relationship plot-more sentiments,  echo=FALSE, warning=FALSE}
+```{r relationship plot-more sentiments, message = FALSE, echo=FALSE, warning=FALSE}
 ggplot(filter(text_sentTfidf_plt, sentiment %in% c("anger", "disgust", "fear", "sadness")),
        aes(tfidf, GSScore)) + 
   geom_jitter(height = 0.1, width = 0.1, alpha = 0.2) +
@@ -311,7 +311,7 @@ pander(postResample(pred = lm_pred, obs = testing$GSScore))
 Due to the curved fitting line we observed in the previous exploratory section, general additive model is adopted for non-linear relationship modeling. The result is quite similar to that of linear regression model, however, it does provide better fits to several of the sub-category emotions. In the second GAM model, all the sub-categories of the positive and negative emotions show significance.
 
 Nevertheless, somewhat surprisingly, the GAM model presents a slightly lower R squared value and a slightly higher MSE than the linear model. For these, we wouldn't be able to say that the GAM models are superior to the linear models in this context, especially non-linears models are generally much worse at providing reasonable inference of the relationships between variables.
-```{r GAM,  echo=FALSE, warning=FALSE}
+```{r GAM,  echo=FALSE, warning=FALSE, message = FALSE}
 # General additive model
 gam_fit1 <- train(GSScore ~ positive + negative, data = training, method = 'gamLoess', trControl = fitControl)
 gam_fit2 <- train(GSScore ~ anticipation + trust + surprise + joy + sadness + anger + fear + disgust, data = training, method = 'gamLoess', trControl = fitControl)

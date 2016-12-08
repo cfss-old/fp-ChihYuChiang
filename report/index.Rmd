@@ -116,7 +116,7 @@ Through the operations, the model reveals several of its limitations which resea
 Indeed, the weak relationship between emotions and general evaluation scores could also attribute to vodeo games' special product characteristic which provide emotional satisfaction through not only positive but also negative emotions such as fight against bosses and killing enemy. This could potentially mitigate negative emotions' negative effects on the general score. Future research in other types of products is suggested for better clarification.
 
 # Bonus
-## App of Game Experiential Topic Comparison
+## An App of Game Experiential Topic Comparison
 This is an app built upon the game data we apply in our research. In the app, you are allowed to filter games by GS Score and ESRB Rateing, and explore and compare the target games experiential composition in terms of the four topics we developed.  
 
 The app can be access anytime from here [here](https://chihyuchiang.shinyapps.io/game_experiential_topic_comparison_shiny/), or the botton **Exploratory
