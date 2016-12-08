@@ -1,8 +1,3 @@
-There's a problem with RStudio's rendering in images.
-Please give us a little more time to fix this problem..
-
-
-
 # Final project
 Thanks for your interests in our project - *Sentiments' Effect on Different Game Experiences*
 
