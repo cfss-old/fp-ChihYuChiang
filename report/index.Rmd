@@ -21,6 +21,7 @@ library(feather)
 # Load stop word dictionery
 data(stop_words)
 ```
+![GameSpot](image/GameSpot.png)
 
 # Overview
 This research aims at knowing more about video game in general. It examines the relationship between *sentiments* existed in video game's product consumptive experience, which is examined through online game reviews, and its product evaluation score, a general indicator of *product satisfaction*, and the moderating role of *game experiential categories*. We hypothesize and partially verify a positive relationship between positive emotions and product evaluation score, and, on the other hand, a negative relationship between negative emotions and product evaluation score. We also examine the confound effect of game experiential categories on the relationship in the afore-mentioned hypotheses.
@@ -44,8 +45,6 @@ The effects described in Hypothesis 1 and Hypothesis 2 are moderated by game exp
 
 # Data and Method
 In this research, product satisfaction is proxied by a general evaluation score provided along with online product reviews. On the other hand, emotions are more difficult to be measured due to the ephemeral nature (Khalid and Helander 2006). Scholars propose different ways approximate them by methods such as retrospective interview and activity experience sampling (Bevan 2009). Based upon that, this research attempts to capture the emotional snapshot (Vermeeren et al. 2010) by examining emotional words employed in video game online text reviews from GameSpot (www.gamespot.com), one of the major game information platform in the U.S.. Game experiential categories are defined by an array of scores developed from LDA model. It analyzes online product review texts and infers the experiential categories from latent text topics.
-
-![GameSpot](image/GameSpot.png)
 
 ## Read data and tokenize
 This analysis draws upon 5,549 professional English game reviews from GameSpot (www.gamespot.com), which we scrape drectly from the website and represents more than 5,000 video games published from 2000-2016. After reading the dataset into R, we change the encoding to ASCII, tokenize the text into single words, remove stop words provided by **tidytext** package, and transform words into stem forms by **SnowballC** package. The words belonging to the Game title in the corresponding review article is also removed to eliminate natural bias of mentioning names of the games in their reviews.  

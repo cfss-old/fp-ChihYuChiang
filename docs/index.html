@@ -313,6 +313,7 @@ Shun Wang • <a href="mailto:shunwang@uchicago.edu">shunwang@uchicago.edu</a></
 </div>
 
 
+<p><img src="image/GameSpot.png" alt="GameSpot" /></p>
 <div id="overview" class="section level1">
 <h1>Overview</h1>
 <p>This research aims at knowing more about video game in general. It examines the relationship between <em>sentiments</em> existed in video game’s product consumptive experience, which is examined through online game reviews, and its product evaluation score, a general indicator of <em>product satisfaction</em>, and the moderating role of <em>game experiential categories</em>. We hypothesize and partially verify a positive relationship between positive emotions and product evaluation score, and, on the other hand, a negative relationship between negative emotions and product evaluation score. We also examine the confound effect of game experiential categories on the relationship in the afore-mentioned hypotheses.</p>
@@ -341,7 +342,6 @@ Shun Wang • <a href="mailto:shunwang@uchicago.edu">shunwang@uchicago.edu</a></
 <div id="data-and-method" class="section level1">
 <h1>Data and Method</h1>
 <p>In this research, product satisfaction is proxied by a general evaluation score provided along with online product reviews. On the other hand, emotions are more difficult to be measured due to the ephemeral nature (Khalid and Helander 2006). Scholars propose different ways approximate them by methods such as retrospective interview and activity experience sampling (Bevan 2009). Based upon that, this research attempts to capture the emotional snapshot (Vermeeren et al. 2010) by examining emotional words employed in video game online text reviews from GameSpot (www.gamespot.com), one of the major game information platform in the U.S.. Game experiential categories are defined by an array of scores developed from LDA model. It analyzes online product review texts and infers the experiential categories from latent text topics.</p>
-<p><img src="image/GameSpot.png" alt="GameSpot" /></p>
 <div id="read-data-and-tokenize" class="section level2">
 <h2>Read data and tokenize</h2>
 <p>This analysis draws upon 5,549 professional English game reviews from GameSpot (www.gamespot.com), which we scrape drectly from the website and represents more than 5,000 video games published from 2000-2016. After reading the dataset into R, we change the encoding to ASCII, tokenize the text into single words, remove stop words provided by <strong>tidytext</strong> package, and transform words into stem forms by <strong>SnowballC</strong> package. The words belonging to the Game title in the corresponding review article is also removed to eliminate natural bias of mentioning names of the games in their reviews.<br />
