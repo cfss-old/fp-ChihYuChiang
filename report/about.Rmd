@@ -1,8 +1,16 @@
 ---
+title: "About This Project"
 output:
   html_document:
     toc: true
     toc_float: true
 ---
+### Origin
+This project and this website are built for a final project of University of Chicago's course, MACS 30500 - *Computing for the Social Sciences*, 2016, fall.
 
-## Will be available soon.
+### Regarding Intellectual Property
+The **only** purpose of this project is for the authors' academic training in coding and social science analysis. All data used in this project is acquired from, and belongs to GameSpot. If there's any concerns regarding data usage and other issues, please directly contact the authors.
+
+### author
+Chih-Yu Chiang • chihyuchiang@uchicago.edu  
+Shun Wang • shunwang@uchicago.edu

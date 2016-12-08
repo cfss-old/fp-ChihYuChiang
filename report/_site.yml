@@ -1,4 +1,5 @@
 name: "Sentiments' Effect on Different Game Experiences"
+output_dir: "../docs"
 output:
   html_document:
     theme: "yeti"
