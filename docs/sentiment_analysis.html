@@ -316,22 +316,22 @@ div.tocify {
 <div id="general-word" class="section level3">
 <h3>General Word</h3>
 <p>First, a text cloud for all observations is drawn to provide a general picture of the text body. Unsurprisingly, the most common word used in the corpus is game itself, followed by game characteristic words like story, challenge, characters, world, and play.</p>
-<p><img src="sentiment_analysis_files/figure-html/Text cloud - all-1.png" width="672" /></p>
+<p><img src="sentiment_analysis_files/figure-html/Text%20cloud%20-%20all-1.png" width="672" /></p>
 </div>
 <div id="word-frequency-by-tfidf" class="section level3">
 <h3>Word frequency by Tfidf</h3>
-<p>Tf-idf index is applied to measure how much information a word provides. With this method we can get rid of most general words which are not specific for game reviews, and focus on those words which carry special meanings for video games. <img src="sentiment_analysis_files/figure-html/word frequency by Tfidf-1.png" width="672" /></p>
+<p>Tf-idf index is applied to measure how much information a word provides. With this method we can get rid of most general words which are not specific for game reviews, and focus on those words which carry special meanings for video games. <img src="sentiment_analysis_files/figure-html/word%20frequency%20by%20Tfidf-1.png" width="672" /></p>
 </div>
 <div id="sentiment-word" class="section level3">
 <h3>Sentiment Word</h3>
 <p>Then, the bar plot revealing sentiment word frequeny and text clouds of positive and negative words are drawn to provide a general sentimental picture of the text body. One thing worth mention here is that the word stemming process is also applied to the emotion dictionary, nrc, which is used as the source of text’s emotional categorization in this analysis. With stemming processing, words are gathered by word family and their frequency and importance indicators like tfidf provide more precise information. Moreover, we should notice that words which are considered standing for negative sentiment in the traditional way may not be that negative in game reviews. For instance, “attack” could simply mean how the game could be played without any negative feelings.</p>
-<p><img src="sentiment_analysis_files/figure-html/word frequency bar sentiment-1.png" width="672" /></p>
-<p><img src="sentiment_analysis_files/figure-html/sentiment word cloud-1.png" width="672" /><img src="sentiment_analysis_files/figure-html/sentiment word cloud-2.png" width="672" /></p>
+<p><img src="sentiment_analysis_files/figure-html/word%20frequency%20bar%20sentiment-1.png" width="672" /></p>
+<p><img src="sentiment_analysis_files/figure-html/sentiment%20word%20cloud-1.png" width="672" /><img src="sentiment_analysis_files/figure-html/sentiment%20word%20cloud-2.png" width="672" /></p>
 </div>
 <div id="sentiment-intensity" class="section level3">
 <h3>Sentiment Intensity</h3>
 <p>Examining sentiments expressed by the text, a bar chart is drawn according to the frequency of each type of sentiment words. The strongst sentiment expressed in the text is trust, which well illustrates one of video games nature that they require group works and emphasize character strength which is dependable and can be trusted by other players.</p>
-<p>The emotions are divided into positive ones, like trust and joy, colored in red, and negative ones, like fear and anger, colored in blue. An interesting fact is the well-balanceed positive and negative sentiments expressed in game reviews. Quite opposite to common expectation in games that they provide joy and make people happy, games, indeed, also produce negative emotions. Not only positive and negative words used are similar in number, but also they alternate in the sentiment intensity ranking as shown in the graph. <img src="sentiment_analysis_files/figure-html/Sentiment Intensity-1.png" width="672" /></p>
+<p>The emotions are divided into positive ones, like trust and joy, colored in red, and negative ones, like fear and anger, colored in blue. An interesting fact is the well-balanceed positive and negative sentiments expressed in game reviews. Quite opposite to common expectation in games that they provide joy and make people happy, games, indeed, also produce negative emotions. Not only positive and negative words used are similar in number, but also they alternate in the sentiment intensity ranking as shown in the graph. <img src="sentiment_analysis_files/figure-html/Sentiment%20Intensity-1.png" width="672" /></p>
 <p>By averaging tfidf index of each word, emotional words are ranked. As we can see in the following tables, the top words are generally with more specific meaning than the ones produced by frequency. For positive words, Words like doll, presto, and kiss replace fun and time; for negative words, alien, curs and betray replace kill and combat.</p>
 <table>
 <thead>
@@ -424,13 +424,13 @@ div.tocify {
 <div id="general-description" class="section level3">
 <h3>General Description</h3>
 <p>Exploratory relationship between different emotions and general evaluation scores is examined. Let’s see the general description using plots about this question first. In this process, we divide all video games into 3 kinds based on the evaluation score: those games whose scores are above 8.5 are considered as “high”; those games whose scores are below 5 are considered as “low”; the rest are considered as medium.</p>
-<p>As we can see, there are more positive words in “high” games’ reviews, which is corresponded with our expectation. <img src="sentiment_analysis_files/figure-html/positive-negative bar-1.png" width="672" /> As for more specific kinds of sentiments, we also get different patterns among different kinds of games based on the evaluation scores. For high-scored games, there are more words related with trust, anticipation, joy, and less words related with anger comared with low-scored games. <img src="sentiment_analysis_files/figure-html/sentiment-score comparison-1.png" width="672" /><img src="sentiment_analysis_files/figure-html/sentiment-score comparison-2.png" width="672" /></p>
+<p>As we can see, there are more positive words in “high” games’ reviews, which is corresponded with our expectation. <img src="sentiment_analysis_files/figure-html/positive-negative%20bar-1.png" width="672" /> As for more specific kinds of sentiments, we also get different patterns among different kinds of games based on the evaluation scores. For high-scored games, there are more words related with trust, anticipation, joy, and less words related with anger comared with low-scored games. <img src="sentiment_analysis_files/figure-html/sentiment-score%20comparison-1.png" width="672" /><img src="sentiment_analysis_files/figure-html/sentiment-score%20comparison-2.png" width="672" /></p>
 </div>
 <div id="explore-the-relationship" class="section level3">
 <h3>Explore the relationship</h3>
 <p>Then we tried to get the basic idea about the relationship between sentiment word and evaluation scores. As expected, we can observe a positive relationship between positive emotion and games’ evaluation score, as well as a negative one between negative emotion and games’ evaluation score. On top of that, The smoothing line reveals somewhat curvature relationships between the variable pairs.</p>
-<p><img src="sentiment_analysis_files/figure-html/relationship plot-PN-1.png" width="672" /> Digging deeper into it, the relationships seem less obvious when dividing positive and negative emotions into sub-categories. For negative emotions, anger and disgust appear to be relative influential ones, however the effects still not so strong.</p>
-<p>On the other hand, we observe a slightly stronger effects of sub-category positive emotions, such as joy and trust, on the general evaluation scores. <img src="sentiment_analysis_files/figure-html/relationship plot-more sentiments-1.png" width="672" /><img src="sentiment_analysis_files/figure-html/relationship plot-more sentiments-2.png" width="672" /></p>
+<p><img src="sentiment_analysis_files/figure-html/relationship%20plot-PN-1.png" width="672" /> Digging deeper into it, the relationships seem less obvious when dividing positive and negative emotions into sub-categories. For negative emotions, anger and disgust appear to be relative influential ones, however the effects still not so strong.</p>
+<p>On the other hand, we observe a slightly stronger effects of sub-category positive emotions, such as joy and trust, on the general evaluation scores. <img src="sentiment_analysis_files/figure-html/relationship%20plot-more%20sentiments-1.png" width="672" /><img src="sentiment_analysis_files/figure-html/relationship%20plot-more%20sentiments-2.png" width="672" /></p>
 </div>
 </div>
 <div id="model-building" class="section level2">
@@ -460,24 +460,24 @@ div.tocify {
 <tbody>
 <tr class="odd">
 <td align="center"><strong>positive</strong></td>
-<td align="center">5.547</td>
-<td align="center">0.3449</td>
-<td align="center">16.08</td>
-<td align="center">3.215e-55</td>
+<td align="center">5.322</td>
+<td align="center">0.3383</td>
+<td align="center">15.73</td>
+<td align="center">5.004e-53</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>negative</strong></td>
-<td align="center">-3.358</td>
-<td align="center">0.2888</td>
-<td align="center">-11.63</td>
-<td align="center">2.163e-30</td>
+<td align="center">-3.205</td>
+<td align="center">0.2843</td>
+<td align="center">-11.27</td>
+<td align="center">1.022e-28</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>(Intercept)</strong></td>
-<td align="center">5.385</td>
-<td align="center">0.1992</td>
-<td align="center">27.04</td>
-<td align="center">6.878e-140</td>
+<td align="center">5.415</td>
+<td align="center">0.1954</td>
+<td align="center">27.71</td>
+<td align="center">5.714e-146</td>
 </tr>
 </tbody>
 </table>
@@ -500,9 +500,9 @@ div.tocify {
 <tbody>
 <tr class="odd">
 <td align="center">2285</td>
-<td align="center">1.513</td>
-<td align="center">0.1531</td>
-<td align="center">0.1524</td>
+<td align="center">1.491</td>
+<td align="center">0.1474</td>
+<td align="center">0.1466</td>
 </tr>
 </tbody>
 </table>
@@ -526,66 +526,66 @@ div.tocify {
 <tbody>
 <tr class="odd">
 <td align="center"><strong>anticipation</strong></td>
-<td align="center">0.3929</td>
-<td align="center">0.7817</td>
-<td align="center">0.5026</td>
-<td align="center">0.6153</td>
+<td align="center">0.5779</td>
+<td align="center">0.7627</td>
+<td align="center">0.7577</td>
+<td align="center">0.4487</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>trust</strong></td>
-<td align="center">2.709</td>
-<td align="center">0.5799</td>
-<td align="center">4.672</td>
-<td align="center">3.158e-06</td>
+<td align="center">2.986</td>
+<td align="center">0.5769</td>
+<td align="center">5.176</td>
+<td align="center">2.459e-07</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>surprise</strong></td>
-<td align="center">3.468</td>
-<td align="center">0.9985</td>
-<td align="center">3.473</td>
-<td align="center">0.0005242</td>
+<td align="center">4.562</td>
+<td align="center">0.9721</td>
+<td align="center">4.693</td>
+<td align="center">2.85e-06</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>joy</strong></td>
-<td align="center">5.745</td>
-<td align="center">0.884</td>
-<td align="center">6.499</td>
-<td align="center">9.883e-11</td>
+<td align="center">4.624</td>
+<td align="center">0.8775</td>
+<td align="center">5.27</td>
+<td align="center">1.493e-07</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>sadness</strong></td>
-<td align="center">-9.257</td>
-<td align="center">0.8378</td>
-<td align="center">-11.05</td>
-<td align="center">1.115e-27</td>
+<td align="center">-8.716</td>
+<td align="center">0.8214</td>
+<td align="center">-10.61</td>
+<td align="center">1.052e-25</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>anger</strong></td>
-<td align="center">-0.1218</td>
-<td align="center">0.8207</td>
-<td align="center">-0.1485</td>
-<td align="center">0.882</td>
+<td align="center">-1.25</td>
+<td align="center">0.8156</td>
+<td align="center">-1.533</td>
+<td align="center">0.1255</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>fear</strong></td>
-<td align="center">4.931</td>
-<td align="center">0.6548</td>
-<td align="center">7.53</td>
-<td align="center">7.295e-14</td>
+<td align="center">4.593</td>
+<td align="center">0.6527</td>
+<td align="center">7.036</td>
+<td align="center">2.603e-12</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>disgust</strong></td>
-<td align="center">-4.751</td>
-<td align="center">0.8688</td>
-<td align="center">-5.468</td>
-<td align="center">5.037e-08</td>
+<td align="center">-3.81</td>
+<td align="center">0.8677</td>
+<td align="center">-4.391</td>
+<td align="center">1.179e-05</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>(Intercept)</strong></td>
-<td align="center">5.448</td>
-<td align="center">0.1716</td>
-<td align="center">31.75</td>
-<td align="center">1.709e-183</td>
+<td align="center">5.471</td>
+<td align="center">0.1693</td>
+<td align="center">32.32</td>
+<td align="center">6.284e-189</td>
 </tr>
 </tbody>
 </table>
@@ -608,9 +608,9 @@ div.tocify {
 <tbody>
 <tr class="odd">
 <td align="center">2285</td>
-<td align="center">1.496</td>
-<td align="center">0.1746</td>
-<td align="center">0.1717</td>
+<td align="center">1.473</td>
+<td align="center">0.17</td>
+<td align="center">0.1671</td>
 </tr>
 </tbody>
 </table>
@@ -628,8 +628,8 @@ div.tocify {
 </thead>
 <tbody>
 <tr class="odd">
-<td align="center">1.416</td>
-<td align="center">0.1375</td>
+<td align="center">1.47</td>
+<td align="center">0.1498</td>
 </tr>
 </tbody>
 </table>
@@ -665,24 +665,24 @@ div.tocify {
 <tr class="odd">
 <td align="center"><strong>lo(positive, span = 0.5, degree = 1)</strong></td>
 <td align="center">1</td>
-<td align="center">637.6</td>
-<td align="center">637.6</td>
-<td align="center">281.5</td>
-<td align="center">1.177e-59</td>
+<td align="center">597.4</td>
+<td align="center">597.4</td>
+<td align="center">271.1</td>
+<td align="center">1.219e-57</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>lo(negative, span = 0.5, degree = 1)</strong></td>
 <td align="center">1</td>
-<td align="center">310.9</td>
-<td align="center">310.9</td>
-<td align="center">137.2</td>
-<td align="center">8.037e-31</td>
+<td align="center">293.5</td>
+<td align="center">293.5</td>
+<td align="center">133.2</td>
+<td align="center">5.456e-30</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Residuals</strong></td>
 <td align="center">2275</td>
-<td align="center">5153</td>
-<td align="center">2.265</td>
+<td align="center">5013</td>
+<td align="center">2.204</td>
 <td align="center">NA</td>
 <td align="center">NA</td>
 </tr>
@@ -716,72 +716,72 @@ div.tocify {
 <tr class="odd">
 <td align="center"><strong>lo(anticipation, span = 0.5, degree = 1)</strong></td>
 <td align="center">1</td>
-<td align="center">204.9</td>
-<td align="center">204.9</td>
-<td align="center">94.65</td>
-<td align="center">6.105e-22</td>
+<td align="center">208.7</td>
+<td align="center">208.7</td>
+<td align="center">99.19</td>
+<td align="center">6.799e-23</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>lo(trust, span = 0.5, degree = 1)</strong></td>
 <td align="center">1</td>
-<td align="center">155.3</td>
-<td align="center">155.3</td>
-<td align="center">71.75</td>
-<td align="center">4.349e-17</td>
+<td align="center">158.3</td>
+<td align="center">158.3</td>
+<td align="center">75.23</td>
+<td align="center">7.876e-18</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>lo(surprise, span = 0.5, degree = 1)</strong></td>
 <td align="center">1</td>
-<td align="center">8.23</td>
-<td align="center">8.23</td>
-<td align="center">3.802</td>
-<td align="center">0.05131</td>
+<td align="center">22.35</td>
+<td align="center">22.35</td>
+<td align="center">10.62</td>
+<td align="center">0.001135</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>lo(joy, span = 0.5, degree = 1)</strong></td>
 <td align="center">1</td>
-<td align="center">141.2</td>
-<td align="center">141.2</td>
-<td align="center">65.24</td>
-<td align="center">1.072e-15</td>
+<td align="center">95.73</td>
+<td align="center">95.73</td>
+<td align="center">45.49</td>
+<td align="center">1.946e-11</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>lo(sadness, span = 0.5, degree = 1)</strong></td>
 <td align="center">1</td>
-<td align="center">369.9</td>
-<td align="center">369.9</td>
-<td align="center">170.9</td>
-<td align="center">1.092e-37</td>
+<td align="center">387.1</td>
+<td align="center">387.1</td>
+<td align="center">184</td>
+<td align="center">2.45e-40</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>lo(anger, span = 0.5, degree = 1)</strong></td>
 <td align="center">1</td>
-<td align="center">21.64</td>
-<td align="center">21.64</td>
-<td align="center">9.999</td>
-<td align="center">0.001587</td>
+<td align="center">5.222</td>
+<td align="center">5.222</td>
+<td align="center">2.482</td>
+<td align="center">0.1153</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>lo(fear, span = 0.5, degree = 1)</strong></td>
 <td align="center">1</td>
-<td align="center">93.23</td>
-<td align="center">93.23</td>
-<td align="center">43.07</td>
-<td align="center">6.54e-11</td>
+<td align="center">81.05</td>
+<td align="center">81.05</td>
+<td align="center">38.52</td>
+<td align="center">6.445e-10</td>
 </tr>
 <tr class="even">
 <td align="center"><strong>lo(disgust, span = 0.5, degree = 1)</strong></td>
 <td align="center">1</td>
-<td align="center">78.84</td>
-<td align="center">78.84</td>
-<td align="center">36.42</td>
-<td align="center">1.851e-09</td>
+<td align="center">55.73</td>
+<td align="center">55.73</td>
+<td align="center">26.49</td>
+<td align="center">2.886e-07</td>
 </tr>
 <tr class="odd">
 <td align="center"><strong>Residuals</strong></td>
 <td align="center">2248</td>
-<td align="center">4867</td>
-<td align="center">2.165</td>
+<td align="center">4731</td>
+<td align="center">2.104</td>
 <td align="center">NA</td>
 <td align="center">NA</td>
 </tr>
@@ -802,8 +802,8 @@ div.tocify {
 </thead>
 <tbody>
 <tr class="odd">
-<td align="center">1.421</td>
-<td align="center">0.1373</td>
+<td align="center">1.468</td>
+<td align="center">0.1542</td>
 </tr>
 </tbody>
 </table>
