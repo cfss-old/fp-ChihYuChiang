@@ -1,0 +1,135 @@
+---
+title: "Topic Analysis"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+---
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(cache = TRUE, warning = FALSE)
+```
+
+```{r include = FALSE}
+library(scales)
+library(topicmodels)
+library(tidyverse)
+library(tidytext)
+library(feather)
+library(broom)
+library(pander)
+
+# Read in data
+text_tidy <- read_feather("../data/text_tidy.feather")
+text_tfidf <- read_feather("../data/text_tfidf.feather")
+text_raw <- read_feather("../data/text_raw.feather")
+genre_tidy <- read_feather("../data/genre_tidy.feather")
+
+```
+
+## LDA
+we apply LDA model for game review topic analysis. The ultimate goal for this is to discover experiential categories of games that we applied in further study concerning their moderating effects on the relationship between sentiments and the general game scores. Moreover, trying to match the categories to [Bartle's game experience model](https://en.wikipedia.org/wiki/Bartle_taxonomy_of_player_types), one of the classics, we set the model's topic number at four.  
+![Bartle](image/Bartle.png)
+The four experience categories thus are defined as follows:  
+
+* **Explorative Type**: Focuses on providing exploring new things, new visual experience, or new structures and rules behind phenomena. Value the variety of objects.  
+
+* **Achievemental Type**: Focuses on providing the sense of achievement, the feedbacks after challenges and the goal structure of accomplishments.  
+
+* **Sensational Type**: Focuses on providing the more primitive enjoyment. It can be provided by the sense of speed and brutal forces, or figuratively, allowing players break the laws in the real world, killing, vandalizing, and so forth.  
+
+* **Social Type**: Focuses on providing social values, such as the sense of team work. This type lets players interact with each other or NPC, or serves as a material for real-life social interactions.  
+```{r warning = FALSE, echo = FALSE}
+# Transform into DocumentTermMatrix form
+text_dtm <- text_tidy %>%
+  group_by(GameTitle) %>%
+  count(word) %>%
+  cast_dtm(GameTitle, word, n)
+
+# LDA model for categorization
+  # Apply LDA model
+  if(FALSE){
+    model_lda <- text_dtm %>%
+      LDA(k = 4, control = list(seed = 2016))
+  } else {
+    load("../data/model_lda.RData")    
+  }
+  
+```
+
+The result shown in the following graph is not very satisfying. The boundaries between topics are blur due to many over-arching words applied in multiple wopics. On top of that, they often over reflecting some traditional game categories, such as sport and car games in topic 4, instead of more general experience topics. For these, some further modifications are discussed in the *Future Research* section in the home page.
+
+Though not really exciting, the result topics still provide a vague flavor in terms of game's experiential categorization, which I believe could be further improved in further research. 
+  
+In the result, topic 1 stresses words without a clear pattern for us. Vaguely, they represents some notions about characters and motions. Compared with the real games it represents in our later analysis, we would say that there's a weak connection between topic 1 and Bartle's Socializer type of experience, which emphasize the social interaction experience between players.  
+
+Topic 2 features words like mission, level, and campaign. It could probably be connected to Bartle's Achiever type of experience, while it underlies the achievement and progress players can make in games.  
+
+Topic 3, on the other hand, stresses words like story, world, adventure, and puzzle. We therefore propose a relatively strong connection between topic 3 and Bartle's Explorer type of experience, which emphasizes the players' exploration in game worlds and game rules.  
+
+Lastly, topic 4 stresses race, car, and ball, and is more like a traditional "Sport" game category. However, this types of games do provides a extended sensational enjoyment, the speed, the bofy force. This links to Bartle's Killer types of experience.
+```{r echo = FALSE}
+  # Critical terms by topic 
+  top_terms <- model_lda %>%
+    tidytext:::tidy.LDA() %>%
+    group_by(topic) %>%
+    top_n(10, beta) %>%
+    ungroup() %>%
+    arrange(topic, -beta)
+  
+  top_terms %>%
+    mutate(term = reorder(term, beta)) %>%
+    ggplot(aes(term, beta, fill = factor(topic))) +
+    geom_bar(alpha = 0.8, stat = "identity", show.legend = FALSE) +
+    facet_wrap(~ topic, scales = "free") +
+    coord_flip() +
+    labs(title = "Critical Terms (Words) by Topic",
+         x = "Term (Word)",
+         y = "Beta")
+
+```
+
+## Fit Games into LDA Model
+With the above result, next, we perform per document classification and look into fittness of this model and the top 10 real games fit in it, which validates a certain degree of fitness between the four topics and Bartle's categories, the relationship we hypothetically described in the last section.
+```{r warning = FALSE, echo = FALSE}
+  # Games by topic
+  games_ldaTop <- model_lda %>%
+    tidytext:::tidy.LDA(matrix = "gamma") %>%
+    group_by(document) %>%
+    top_n(1, wt = gamma) %>%
+    ungroup()
+  
+  ggplot(games_ldaTop, aes(topic)) +
+    geom_bar() +
+    labs(title = "Topic Distribution",
+         x = "Topics",
+         y = "Frequency")
+
+```
+
+### Social Type 
+In topic 1, though not clearly discernable from the critical terms listed above, there are a couple of games actually provides strong social and cooperative value in their gameplays. Such as *Tatsunoko vs. Capcom*, *DJ Hero*, *Capcom Puzzle World*, and *Meteos: Disney Magic*, they provides good opportunities for in-game cooperation and competition with friends, and the experience can often be linked to real life interactions.
+```{r warning = FALSE, echo = FALSE}
+  pander(arrange(top_n(filter(games_ldaTop, topic == 1), 10, gamma), -gamma))
+
+```
+
+### Achievemental Type
+Games in Topic 2 include *Supreme Commander* and *Starcraft* series. In our categorization, most of the games in this group are related to war , which emphasizes successive quests and missions leading to the larger goal and success. Though not very obvious, a faint connection with Bartle's Achievemental experience type.
+```{r warning = FALSE, echo = FALSE}
+  pander(arrange(top_n(filter(games_ldaTop, topic == 2), 10, gamma), -gamma))
+
+```
+
+### Explorative Type
+Topic 3 shows a higher fitness with the Bartle's Explorer experience type. Games in this category include *SOMA* and *Murdered: Soul Suspect*, which emphasize the discovery of truth, and *Oxenfree* and *Whispering Willows*, which stess on their story. Often, Players of those games have greater freedom in the ways of playing, and are allowed to constent travels and experiments.
+```{r warning = FALSE, echo = FALSE}
+  pander(arrange(top_n(filter(games_ldaTop, topic == 3), 10, gamma), -gamma))
+
+```
+
+### Sensational Type
+Lastly, topic 4 games demostrates a strong tendency to speed and body force in gameplay which conforms to the Killer type of experience in Bartle's categorization. Games like *Gran Turismo* series and *NHL* series all emphasize high level of visual and audio elements which support gameplay in a faster, more sensational pace.
+```{r warning = FALSE, echo = FALSE}
+  pander(arrange(top_n(filter(games_ldaTop, topic == 4), 10, gamma), -gamma))
+
+```

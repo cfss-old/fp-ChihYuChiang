@@ -1,0 +1,14 @@
+base
+scales
+topicmodels
+tidyverse
+ggplot2
+tibble
+tidyr
+readr
+purrr
+dplyr
+tidytext
+feather
+broom
+pander

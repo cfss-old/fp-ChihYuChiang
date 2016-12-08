@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Topic Analysis</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Game Experience and Sentiments</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="sentiment_analysis.html">Sentiment Analysis</a>
+</li>
+<li>
+  <a href="topic_analysis.html">Topic Analysis</a>
+</li>
+<li>
+  <a href="sentiment_and_topic.html">Sentiment + Topic</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="https://chihyuchiang.shinyapps.io/game_experiential_topic_comparison_shiny/">
+    <span class="glyphicon glyphicon-search"></span>
+     
+    Exploratory App
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Topic Analysis</h1>
+
+</div>
+
+
+<div id="lda" class="section level2">
+<h2>LDA</h2>
+<p>we apply LDA model for game review topic analysis. The ultimate goal for this is to discover experiential categories of games that we applied in further study concerning their moderating effects on the relationship between sentiments and the general game scores. Moreover, trying to match the categories to <a href="https://en.wikipedia.org/wiki/Bartle_taxonomy_of_player_types">Bartle’s game experience model</a>, one of the classics, we set the model’s topic number at four.<br />
+<img src="image/Bartle.png" alt="Bartle" /> The four experience categories thus are defined as follows:</p>
+<ul>
+<li><p><strong>Explorative Type</strong>: Focuses on providing exploring new things, new visual experience, or new structures and rules behind phenomena. Value the variety of objects.</p></li>
+<li><p><strong>Achievemental Type</strong>: Focuses on providing the sense of achievement, the feedbacks after challenges and the goal structure of accomplishments.</p></li>
+<li><p><strong>Sensational Type</strong>: Focuses on providing the more primitive enjoyment. It can be provided by the sense of speed and brutal forces, or figuratively, allowing players break the laws in the real world, killing, vandalizing, and so forth.</p></li>
+<li><p><strong>Social Type</strong>: Focuses on providing social values, such as the sense of team work. This type lets players interact with each other or NPC, or serves as a material for real-life social interactions.</p></li>
+</ul>
+<p>The result shown in the following graph is not very satisfying. The boundaries between topics are blur due to many over-arching words applied in multiple wopics. On top of that, they often over reflecting some traditional game categories, such as sport and car games in topic 4, instead of more general experience topics. For these, some further modifications are discussed in the <em>Future Research</em> section in the home page.</p>
+<p>Though not really exciting, the result topics still provide a vague flavor in terms of game’s experiential categorization, which I believe could be further improved in further research.</p>
+<p>In the result, topic 1 stresses words without a clear pattern for us. Vaguely, they represents some notions about characters and motions. Compared with the real games it represents in our later analysis, we would say that there’s a weak connection between topic 1 and Bartle’s Socializer type of experience, which emphasize the social interaction experience between players.</p>
+<p>Topic 2 features words like mission, level, and campaign. It could probably be connected to Bartle’s Achiever type of experience, while it underlies the achievement and progress players can make in games.</p>
+<p>Topic 3, on the other hand, stresses words like story, world, adventure, and puzzle. We therefore propose a relatively strong connection between topic 3 and Bartle’s Explorer type of experience, which emphasizes the players’ exploration in game worlds and game rules.</p>
+<p>Lastly, topic 4 stresses race, car, and ball, and is more like a traditional “Sport” game category. However, this types of games do provides a extended sensational enjoyment, the speed, the bofy force. This links to Bartle’s Killer types of experience. <img src="topic_analysis_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>
+<div id="fit-games-into-lda-model" class="section level2">
+<h2>Fit Games into LDA Model</h2>
+<p>With the above result, next, we perform per document classification and look into fittness of this model and the top 10 real games fit in it, which validates a certain degree of fitness between the four topics and Bartle’s categories, the relationship we hypothetically described in the last section. <img src="topic_analysis_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<div id="social-type" class="section level3">
+<h3>Social Type</h3>
+<p>In topic 1, though not clearly discernable from the critical terms listed above, there are a couple of games actually provides strong social and cooperative value in their gameplays. Such as <em>Tatsunoko vs. Capcom</em>, <em>DJ Hero</em>, <em>Capcom Puzzle World</em>, and <em>Meteos: Disney Magic</em>, they provides good opportunities for in-game cooperation and competition with friends, and the experience can often be linked to real life interactions.</p>
+<table style="width:67%;">
+<colgroup>
+<col width="43%" />
+<col width="11%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">document</th>
+<th align="center">topic</th>
+<th align="center">gamma</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Tatsunoko vs. Capcom: Ultimate All-Stars</td>
+<td align="center">1</td>
+<td align="center">0.9994589</td>
+</tr>
+<tr class="even">
+<td align="center">Fatal Fury: Battle Archives Volume 1</td>
+<td align="center">1</td>
+<td align="center">0.9993225</td>
+</tr>
+<tr class="odd">
+<td align="center">Lumines Supernova</td>
+<td align="center">1</td>
+<td align="center">0.9992611</td>
+</tr>
+<tr class="even">
+<td align="center">Bleach: The Blade of Fate</td>
+<td align="center">1</td>
+<td align="center">0.9992451</td>
+</tr>
+<tr class="odd">
+<td align="center">DJ Hero</td>
+<td align="center">1</td>
+<td align="center">0.9992399</td>
+</tr>
+<tr class="even">
+<td align="center">Capcom Puzzle World</td>
+<td align="center">1</td>
+<td align="center">0.9991803</td>
+</tr>
+<tr class="odd">
+<td align="center">Boulder Dash-XL</td>
+<td align="center">1</td>
+<td align="center">0.9991460</td>
+</tr>
+<tr class="even">
+<td align="center">Rock Band Blitz</td>
+<td align="center">1</td>
+<td align="center">0.9991321</td>
+</tr>
+<tr class="odd">
+<td align="center">Magical Beat</td>
+<td align="center">1</td>
+<td align="center">0.9990839</td>
+</tr>
+<tr class="even">
+<td align="center">Meteos: Disney Magic</td>
+<td align="center">1</td>
+<td align="center">0.9990798</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="achievemental-type" class="section level3">
+<h3>Achievemental Type</h3>
+<p>Games in Topic 2 include <em>Supreme Commander</em> and <em>Starcraft</em> series. In our categorization, most of the games in this group are related to war , which emphasizes successive quests and missions leading to the larger goal and success. Though not very obvious, a faint connection with Bartle’s Achievemental experience type.</p>
+<table style="width:67%;">
+<colgroup>
+<col width="43%" />
+<col width="11%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">document</th>
+<th align="center">topic</th>
+<th align="center">gamma</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Total War: Shogun 2</td>
+<td align="center">2</td>
+<td align="center">0.9995758</td>
+</tr>
+<tr class="even">
+<td align="center">Global Agenda</td>
+<td align="center">2</td>
+<td align="center">0.9995611</td>
+</tr>
+<tr class="odd">
+<td align="center">Wargame: European Escalation</td>
+<td align="center">2</td>
+<td align="center">0.9995561</td>
+</tr>
+<tr class="even">
+<td align="center">For The Glory: A Europa Universalis Game</td>
+<td align="center">2</td>
+<td align="center">0.9995369</td>
+</tr>
+<tr class="odd">
+<td align="center">Supreme Commander</td>
+<td align="center">2</td>
+<td align="center">0.9995209</td>
+</tr>
+<tr class="even">
+<td align="center">Call of Duty: Modern Warfare 2</td>
+<td align="center">2</td>
+<td align="center">0.9995200</td>
+</tr>
+<tr class="odd">
+<td align="center">Empire: Total War</td>
+<td align="center">2</td>
+<td align="center">0.9995186</td>
+</tr>
+<tr class="even">
+<td align="center">Supreme Commander 2</td>
+<td align="center">2</td>
+<td align="center">0.9995015</td>
+</tr>
+<tr class="odd">
+<td align="center">Starcraft II: Heart of the Swarm</td>
+<td align="center">2</td>
+<td align="center">0.9994794</td>
+</tr>
+<tr class="even">
+<td align="center">Command &amp; Conquer 4: Tiberian Twilight</td>
+<td align="center">2</td>
+<td align="center">0.9994727</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="explorative-type" class="section level3">
+<h3>Explorative Type</h3>
+<p>Topic 3 shows a higher fitness with the Bartle’s Explorer experience type. Games in this category include <em>SOMA</em> and <em>Murdered: Soul Suspect</em>, which emphasize the discovery of truth, and <em>Oxenfree</em> and <em>Whispering Willows</em>, which stess on their story. Often, Players of those games have greater freedom in the ways of playing, and are allowed to constent travels and experiments.</p>
+<table style="width:67%;">
+<colgroup>
+<col width="43%" />
+<col width="11%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">document</th>
+<th align="center">topic</th>
+<th align="center">gamma</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Oxenfree</td>
+<td align="center">3</td>
+<td align="center">0.9992936</td>
+</tr>
+<tr class="even">
+<td align="center">SOMA</td>
+<td align="center">3</td>
+<td align="center">0.9992524</td>
+</tr>
+<tr class="odd">
+<td align="center">Unrest</td>
+<td align="center">3</td>
+<td align="center">0.9992440</td>
+</tr>
+<tr class="even">
+<td align="center">Dreamfall Chapters</td>
+<td align="center">3</td>
+<td align="center">0.9991874</td>
+</tr>
+<tr class="odd">
+<td align="center">NaissanceE</td>
+<td align="center">3</td>
+<td align="center">0.9991425</td>
+</tr>
+<tr class="even">
+<td align="center">Fragile Dreams: Farewell Ruins of the Moon</td>
+<td align="center">3</td>
+<td align="center">0.9991389</td>
+</tr>
+<tr class="odd">
+<td align="center">Murdered: Soul Suspect</td>
+<td align="center">3</td>
+<td align="center">0.9991138</td>
+</tr>
+<tr class="even">
+<td align="center">INSIDE</td>
+<td align="center">3</td>
+<td align="center">0.9990945</td>
+</tr>
+<tr class="odd">
+<td align="center">Lucius</td>
+<td align="center">3</td>
+<td align="center">0.9990921</td>
+</tr>
+<tr class="even">
+<td align="center">Whispering Willows</td>
+<td align="center">3</td>
+<td align="center">0.9990784</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="sensational-type" class="section level3">
+<h3>Sensational Type</h3>
+<p>Lastly, topic 4 games demostrates a strong tendency to speed and body force in gameplay which conforms to the Killer type of experience in Bartle’s categorization. Games like <em>Gran Turismo</em> series and <em>NHL</em> series all emphasize high level of visual and audio elements which support gameplay in a faster, more sensational pace.</p>
+<table style="width:62%;">
+<colgroup>
+<col width="38%" />
+<col width="11%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">document</th>
+<th align="center">topic</th>
+<th align="center">gamma</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">Forza Motorsport 2</td>
+<td align="center">4</td>
+<td align="center">0.9996008</td>
+</tr>
+<tr class="even">
+<td align="center">F1 2011</td>
+<td align="center">4</td>
+<td align="center">0.9995965</td>
+</tr>
+<tr class="odd">
+<td align="center">Gran Turismo 5</td>
+<td align="center">4</td>
+<td align="center">0.9995671</td>
+</tr>
+<tr class="even">
+<td align="center">Gran Turismo 6</td>
+<td align="center">4</td>
+<td align="center">0.9995660</td>
+</tr>
+<tr class="odd">
+<td align="center">NHL 2K8</td>
+<td align="center">4</td>
+<td align="center">0.9995639</td>
+</tr>
+<tr class="even">
+<td align="center">ProStroke Golf - World Tour 2007</td>
+<td align="center">4</td>
+<td align="center">0.9995452</td>
+</tr>
+<tr class="odd">
+<td align="center">NHL 08</td>
+<td align="center">4</td>
+<td align="center">0.9995148</td>
+</tr>
+<tr class="even">
+<td align="center">Forza Motorsport 4</td>
+<td align="center">4</td>
+<td align="center">0.9995036</td>
+</tr>
+<tr class="odd">
+<td align="center">Forza Motorsport 3</td>
+<td align="center">4</td>
+<td align="center">0.9995025</td>
+</tr>
+<tr class="even">
+<td align="center">Madden NFL 09</td>
+<td align="center">4</td>
+<td align="center">0.9995017</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

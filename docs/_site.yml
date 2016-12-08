@@ -1,0 +1,24 @@
+name: "Sentiments' Effect on Different Game Experiences"
+output:
+  html_document:
+    theme: "yeti"
+    fig_caption: false
+navbar:
+  title: "Game Experience and Sentiments"
+  type: inverse
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Sentiment Analysis"
+      href: sentiment_analysis.html
+    - text: "Topic Analysis"
+      href: topic_analysis.html
+    - text: "Sentiment + Topic"
+      href: sentiment_and_topic.html
+      
+  right:
+    - text: "About"
+      href: about.html
+    - text: "Exploratory App"
+      icon: glyphicon-search
+      href: https://chihyuchiang.shinyapps.io/game_experiential_topic_comparison_shiny/

@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Sentiments’ Effect on Different Game Experiences</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Game Experience and Sentiments</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="sentiment_analysis.html">Sentiment Analysis</a>
+</li>
+<li>
+  <a href="topic_analysis.html">Topic Analysis</a>
+</li>
+<li>
+  <a href="sentiment_and_topic.html">Sentiment + Topic</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="https://chihyuchiang.shinyapps.io/game_experiential_topic_comparison_shiny/">
+    <span class="glyphicon glyphicon-search"></span>
+     
+    Exploratory App
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Sentiments’ Effect on Different Game Experiences</h1>
+<h4 class="author"><em><p>Chih-Yu Chiang • <a href="mailto:chihyuchiang@uchicago.edu">chihyuchiang@uchicago.edu</a><br />
+Shun Wang • <a href="mailto:shunwang@uchicago.edu">shunwang@uchicago.edu</a></p></em></h4>
+
+</div>
+
+
+<div id="overview" class="section level1">
+<h1>Overview</h1>
+<p>This research aims at knowing more about video game in general. It examines the relationship between <em>sentiments</em> existed in video game’s product consumptive experience, which is examined through online game reviews, and its product evaluation score, a general indicator of <em>product satisfaction</em>, and the moderating role of <em>game experiential categories</em>. We hypothesize and partially verify a positive relationship between positive emotions and product evaluation score, and, on the other hand, a negative relationship between negative emotions and product evaluation score. We also examine the confound effect of game experiential categories on the relationship in the afore-mentioned hypotheses.</p>
+</div>
+<div id="literature-review" class="section level1">
+<h1>Literature Review</h1>
+<p>Emotions in product consumption has long been treated as an important part in the consumptive experience as a whole. Product experience contains emotional experience, along with aesthetic experience and experience of meaning (Desmet and Hekkert 2007). Some scholars even define user experience as dynamic internal and emotional state of a user which happens when and after interactions with products (Hassenzahl and Marc 2008).</p>
+<p>Emotions are central due to their critical role in influencing customers interacting with products, which often play triggers of thinking, which influence product evaluation (Wood and Moreau 2006). Many literatures confirm this relationship. Oliver argues that positive and negative emotional affect’s effect on product satisfaction (1994), while Gorn, Goldberg, and Basu claim mood’s influence on consumers’ product evaluation process even when the mood is not directly aroused by the product itself (1993).</p>
+<p>In the first half of This research, we intend to examine this highlighted relationship between emotions during consumption and product satisfaction. On top of that, we apply this examining process to games with different game experiential topics, and observe the differences in between.</p>
+</div>
+<div id="hypotheses" class="section level1">
+<h1>Hypotheses</h1>
+<div id="hypothesis-1" class="section level3">
+<h3>Hypothesis 1</h3>
+<p>Positive emotions, including anticipation, joy, surprise, and trust, in video game’s product consumptive experience, positively influence video games’ performance in product evaluation score.</p>
+</div>
+<div id="hypothesis-2" class="section level3">
+<h3>Hypothesis 2</h3>
+<p>On the contrary, negative emotions, including anger, disgust, fear, and sadness, in video game’s product consumptive experience, negatively influence video games’ performance in product evaluation score.</p>
+</div>
+<div id="hypothesis-3" class="section level3">
+<h3>Hypothesis 3</h3>
+<p>The effects described in Hypothesis 1 and Hypothesis 2 are moderated by game experiential categories. In other words, One sensation could have varied effects on product evaluation score of games of different game experiential categories.</p>
+</div>
+</div>
+<div id="data-and-method" class="section level1">
+<h1>Data and Method</h1>
+<p>In this research, product satisfaction is proxied by a general evaluation score provided along with online product reviews. On the other hand, emotions are more difficult to be measured due to the ephemeral nature (Khalid and Helander 2006). Scholars propose different ways approximate them by methods such as retrospective interview and activity experience sampling (Bevan 2009). Based upon that, this research attempts to capture the emotional snapshot (Vermeeren et al. 2010) by examining emotional words employed in video game online text reviews from GameSpot (www.gamespot.com), one of the major game information platform in the U.S.. Game experiential categories are defined by an array of scores developed from LDA model. It analyzes online product review texts and infers the experiential categories from latent text topics.</p>
+<p><img src="image/GameSpot.png" alt="GameSpot" /></p>
+<div id="read-data-and-tokenize" class="section level2">
+<h2>Read data and tokenize</h2>
+<p>This analysis draws upon 5,549 professional English game reviews from GameSpot (www.gamespot.com), which we scrape drectly from the website and represents more than 5,000 video games published from 2000-2016. After reading the dataset into R, we change the encoding to ASCII, tokenize the text into single words, remove stop words provided by <strong>tidytext</strong> package, and transform words into stem forms by <strong>SnowballC</strong> package. The words belonging to the Game title in the corresponding review article is also removed to eliminate natural bias of mentioning names of the games in their reviews.<br />
+<img src="image/ReviewArticle.png" alt="Review Article" /></p>
+<p>The tidied dataset ready for analysis contains 1,786,690 observations (words). At the meantime, each games’ general review score is acquired from the same website, too. It comes from professional evaluation performed by that same game information website (GameSpot).</p>
+<pre class="r"><code># Main dataset
+  # Read data, adjust encoding, remove duplicate data
+  text_raw &lt;- read_csv(&quot;../data/df_cb_main.csv&quot;) %&gt;%
+    mutate(Review = iconv(Review, &quot;ASCII&quot;, &quot;UTF-8&quot;)) %&gt;%
+    transmute(GameTitle = `Game Title`, Review, GSScore = `GS Score`, ESRB, ReleaseDate = `Release Date`) %&gt;%
+    arrange(GameTitle, GSScore) %&gt;%
+    distinct(GameTitle, .keep_all = TRUE)
+  
+  # Remove game title words in each review
+  title_tidy &lt;- text_raw %&gt;%
+    mutate(TitleToken = GameTitle) %&gt;%
+    unnest_tokens(word, TitleToken) %&gt;%
+    select(GameTitle, word)
+  i &lt;- 1
+  for(title in text_raw$GameTitle){
+    title_tidy_single &lt;- filter(title_tidy, GameTitle == text_raw[[1]][i])
+    for(titleText in title_tidy_single$word){
+      filterTextS = paste(&quot;(^(&quot;, titleText, &quot;) )&quot;, sep = &quot;&quot;)
+      filterTextO = paste(&quot;(( &quot;, titleText, &quot;))&quot;, sep = &quot;&quot;)
+      text_raw[i, 2] &lt;- gsub(filterTextS, &quot;&quot;, text_raw[i, 2], ignore.case = TRUE)      
+      text_raw[i, 2] &lt;- gsub(filterTextO, &quot;&quot;, text_raw[i, 2], ignore.case = TRUE)   
+    }
+    i &lt;- i + 1
+  }
+  
+  # Tokenize review, remove stop words, stem words
+  text_tidy &lt;- text_raw %&gt;%
+    unnest_tokens(word, Review) %&gt;%
+    anti_join(stop_words, by = &quot;word&quot;) %&gt;%
+    mutate(word = wordStem(word))
+  
+  # Remove frequent general topic words
+  wordSieve = c(&quot;game&quot;, &quot;games&quot;, &quot;game&#39;s&quot;, &quot;play&quot;, &quot;feel&quot;, &quot;time&quot;, &quot;experience&quot;, &quot;makes&quot;)
+  text_tidy &lt;- text_tidy %&gt;%
+    filter(!word %in% wordSieve)</code></pre>
+<p>Tf-idf index is applied to measure how much information a word provides. The strongest words as shown in the graph contains many experiencial words such as trust, people, spacious, and arduous. This illustrates one of video games’ core value, providing emotions to the players.</p>
+<pre class="r"><code>  # Generate tfidf index
+  text_tfidf &lt;- text_tidy %&gt;%
+    group_by(GameTitle) %&gt;%
+    count(word, sort = TRUE) %&gt;%
+    bind_tf_idf(word, GameTitle, n)</code></pre>
+</div>
+<div id="method" class="section level2">
+<h2>Method</h2>
+<p>This analysis calculates emotional scores of each game review by words’ tfidf indicator. The relationship between those emotional scores and the general evaluation scores is then examined by general additive model, which provides the best fit after comparing with randon forest and linear regression methods. All models’ effectiveness is examined, and their robustness is evaluated by applying 5-fold cross validation and a training and testing sample division. Lastly, for topic analysis, LDA is adopted to extract the four major topics from the input of game review texts.</p>
+</div>
+</div>
+<div id="conclusion" class="section level1">
+<h1>Conclusion</h1>
+<ol style="list-style-type: decimal">
+<li>Both hypothesis 1 and hypothesis 2 are partially supported by three different models, linear, general additive, and random forest. They substantiate the positive effects of positive emotion and negative effect of negative emotion on the general evaluation score.</li>
+<li>For specific emotions, trust, joy, sadness, and fear have the most significant influence on the general evaluation score among all emotions.</li>
+<li>These models are robust and produce stable output regarding the k-fold cross validation and training-testing sample fitting.</li>
+<li>The order of general effectiveness evaluated by model MSE is, from high to low, linear model, general additive model, and random forest. Linear model is not necessarily worse, compared to those complicated ones like GAM and random forset.</li>
+<li>However, through only emotions, all three models provide only limited explanation regarding the variance of general evaluation score.</li>
+</ol>
+</div>
+<div id="concerns-and-future-research" class="section level1">
+<h1>Concerns and Future Research</h1>
+<p>Through the operations, the model reveals several of its limitations which researchers have to tackle with in further studies (like in my final project). One of the most critical is the somewhat weak explanatory power of emotions on the general evaluation score. The experiential topics developed from LDA do not provide a strong interpretation in game experience, instead, they inclined to conform to and verify the traditional game categories. I argue that the models obviously need more control variables or advanced data processes, such as a further categorization of the meaning of words, to stand out the effects of experience and sentiments. We are also considering apply tools such as Principal Component Analysis to reduce and concentrate the dimentionality before employing the LDA method.</p>
+<p>Indeed, the weak relationship between emotions and general evaluation scores could also attribute to vodeo games’ special product characteristic which provide emotional satisfaction through not only positive but also negative emotions such as fight against bosses and killing enemy. This could potentially mitigate negative emotions’ negative effects on the general score. Future research in other types of products is suggested for better clarification.</p>
+</div>
+<div id="bonus" class="section level1">
+<h1>Bonus</h1>
+<div id="app-of-game-experiential-topic-comparison" class="section level2">
+<h2>App of Game Experiential Topic Comparison</h2>
+<p>This is an app built upon the game data we apply in our research. In the app, you are allowed to filter games by GS Score and ESRB Rateing, and explore and compare the target games experiential composition in terms of the four topics we developed.</p>
+<p>The app can be access anytime from here <a href="https://chihyuchiang.shinyapps.io/game_experiential_topic_comparison_shiny/">here</a>, or the botton <strong>Exploratory App</strong> locates at the site’s navigation bar. <img src="image/app.png" alt="App" /></p>
+</div>
+</div>
+<div id="reference" class="section level1">
+<h1>Reference</h1>
+<p>Bevan, N. (2009). <em>What is The Difference Between The Purpose of Usability and User Experience Evaluation Methods?</em> Interact 2009, (August), 1–4.</p>
+<p>Vermeeren, A. P. O. S., Law, E. L., Roto, V., Obrist, M., Hoonhout, J., &amp; Väänänen-Vainio-Mattila, K. (2010). <em>User experience evaluation methods.</em> Proceedings of the 6th Nordic Conference on Human-Computer Interaction Extending Boundaries - NordiCHI ’10, (July 2015), 521. <a href="http://doi.org/10.1145/1868914.1868973" class="uri">http://doi.org/10.1145/1868914.1868973</a></p>
+<p>Hassenzahl, M. (2008). <em>User experience (UX): Towards an experiential perspective on product quality.</em> Proceedings of the 20th International Conference of the Association Francophone d’Interaction Homme-Machine on - IHM ’08, 11–15. <a href="http://doi.org/10.1145/1512714.1512717" class="uri">http://doi.org/10.1145/1512714.1512717</a></p>
+<p>Gorn, G. J., Goldberg, M. E., Basu, K., Gorn, G. J., &amp; Goldberg, M. E. (2016). Stable URL : <a href="http://www.jstor.org/stable/1480228" class="uri">http://www.jstor.org/stable/1480228</a> <em>Mood , Awareness , and Product Evaluation</em>, 2(3), 237–256.</p>
+<p>Wood, S. L., &amp; Moreau, C. P. (2006). <em>From Fear to Loathing? How Emotion Influences the Evaluation and Early Use of Innovations.</em> Journal of Marketing, 70(3), 44–57. <a href="http://doi.org/10.1509/jmkg.70.3.44" class="uri">http://doi.org/10.1509/jmkg.70.3.44</a></p>
+<p>Desmet, P. M. a., &amp; Hekkert, P. (2007). <em>Framework of product experience.</em> International Journal of Design, 1(1), 57–66. <a href="http://doi.org/10.1162/074793602320827406" class="uri">http://doi.org/10.1162/074793602320827406</a></p>
+<p>Khalid, H. M. (2006). <em>Customer Emotional Needs in Product Design.</em> Concurrent Engineering, 14(3), 197–206. <a href="http://doi.org/10.1177/1063293X06068387" class="uri">http://doi.org/10.1177/1063293X06068387</a></p>
+<p>Oliver, R. L. (1994). <em>Conceptual Issues in the Structural Analysis of Consumption Emotion, Satisfaction, and Quality: Evidence in a Service Setting.</em> Advances in Consumer Research, 21(1977), 16–22.</p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
