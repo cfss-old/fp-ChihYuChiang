@@ -11,7 +11,7 @@
 
 
 
-<title>sentiment_and_topic</title>
+<title>Sentiment and Experience Topics</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,6 +19,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-1.1/highlight.js"></script>
@@ -161,6 +164,101 @@ $(document).ready(function () {
 
 
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
 
 
 <div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
@@ -208,17 +306,734 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">sentiment_and_topic</h1>
+<h1 class="title toc-ignore">Sentiment and Experience Topics</h1>
 
 </div>
 
 
-<div id="will-be-available-soon." class="section level2">
-<h2>Will be available soon.</h2>
+<div id="topic-sentiment" class="section level2">
+<h2>Topic ~ Sentiment</h2>
+<div id="general-introduction-of-this-step" class="section level3">
+<h3>General introduction of this step</h3>
+<p>Finally, we get the step to find out whether there is a relationship between a video game’s type and the sentiment word which would be used in the game review. Through this approach, we want to testify: 1. The topic model we built is effective or not; 2. Whether different sentiment words would play different roles when users evaluate different kinds of games.</p>
+</div>
+<div id="preliminary-works" class="section level3">
+<h3>Preliminary Works</h3>
+<p>First, we tried to find out which type each game belongs to. This is based on the topic model we build in the last step. If a game’s fitness score in a certain type is larger than 0.5, we would consider this game as in this type. Through this method, we got 932 games which belong to the “social” type, 659 games which belong to the “achieve” type, 821 games which belong to the “explore” type, and 503 games which belong to the “killer” type.</p>
+</div>
+<div id="word-frequency" class="section level3">
+<h3>Word Frequency</h3>
+<p>After the determination about the types of video games, we wanted to get a general and basic idea about the word used in those kinds of games. As we see blow about the bar plots, there is some evidence which can prove our topic model’s validity. Though the word “time” is the most frequently used positive word in all four types of games, we can see that for social game, the word “fun” comes second. While for the “achieve” type, the second important positive word is power. Also we can see the second positive word for “explore” type of game is “adventure”, which is very easy for us to understand. As for the “killer” type, although we cannot get an explicit evidence about the positive word, we can see the most frequently used negative word stems are “chanlleng” and “oppon”.</p>
+<p><img src="sentiment_and_topic_files/figure-html/unnamed-chunk-3-1.png" width="672" /><img src="sentiment_and_topic_files/figure-html/unnamed-chunk-3-2.png" width="672" /><img src="sentiment_and_topic_files/figure-html/unnamed-chunk-3-3.png" width="672" /><img src="sentiment_and_topic_files/figure-html/unnamed-chunk-3-4.png" width="672" /></p>
+</div>
+<div id="sentiment-word-using" class="section level3">
+<h3>Sentiment word using</h3>
+<p>Then we wanted to compare the proportion of different sentiment words used in different kinds of game reviews. Maybe it is a little bit difficult to tell, we still find the difference among those four kinds of games. Compared with high-quality “social” video games (high evaluation scores), there would be more words about anger, fear and less words about joy in the review of high-quality “achieve” video games. Also we found out the feeling of “anticipation” plays an important roles in high-quality “explore” video games.</p>
+<p><img src="sentiment_and_topic_files/figure-html/unnamed-chunk-4-1.png" width="672" /><img src="sentiment_and_topic_files/figure-html/unnamed-chunk-4-2.png" width="672" /><img src="sentiment_and_topic_files/figure-html/unnamed-chunk-4-3.png" width="672" /><img src="sentiment_and_topic_files/figure-html/unnamed-chunk-4-4.png" width="672" /></p>
+</div>
+<div id="model-building" class="section level3">
+<h3>Model Building</h3>
+<p>At last, we tried to get more solid evidence about our findings by building models. Firstly, by using ggplot, we show the linear relationship between different kinds of sentiment and the evaluation score. It is interesting that except for “sadness” which seems to play a significant role in all kinds of games, the relationships are quite weak. The most convincing negative relationship between negative word used and the evaluation scores is find in the “killer” type. While for the relationship of positive word using and the evaluation score for the “killer” type games become the weakest compared with other three types of game.</p>
+</div>
+<div id="the-relationship-between-negative-words-and-evaluation-score" class="section level3">
+<h3>The relationship between negative words and evaluation score</h3>
+<p><img src="sentiment_and_topic_files/figure-html/unnamed-chunk-6-1.png" width="672" /><img src="sentiment_and_topic_files/figure-html/unnamed-chunk-6-2.png" width="672" /><img src="sentiment_and_topic_files/figure-html/unnamed-chunk-6-3.png" width="672" /><img src="sentiment_and_topic_files/figure-html/unnamed-chunk-6-4.png" width="672" /></p>
+</div>
+<div id="the-relationship-between-positive-words-and-evaluation-score" class="section level3">
+<h3>The relationship between positive words and evaluation score</h3>
+<p><img src="sentiment_and_topic_files/figure-html/unnamed-chunk-7-1.png" width="672" /><img src="sentiment_and_topic_files/figure-html/unnamed-chunk-7-2.png" width="672" /><img src="sentiment_and_topic_files/figure-html/unnamed-chunk-7-3.png" width="672" /><img src="sentiment_and_topic_files/figure-html/unnamed-chunk-7-4.png" width="672" /></p>
+<p>Then we used GAM model, which is proved to be the best model in previous analysis, to testify these relationships. What we should notice at first is that the models built for “social” and “achieve” types of games are better according to the MSE and RSquare value. But since the datasets are not so big after we make the division about these types, we think these four models are all acceptable. Through the comparison, we found that positive feelings are more important for the “explore” types of video games, while negative feelings play the weakest role for the evaluation. This finding can be understood since for people who enjoy exploration, they would probably get ready for facing different unknown situation. Compared with avoiding the negative feeling, they are more likely to value the positive feelings by open themselves to all kinds of situations. While for the “killer” types, negative feelings are more important for the evaluation, and it becomes more interesting when we see the subtype of negative feelings’ influence on the evaluation of “killer” types of games. Apparently this strong negative relationships are because of “anger” or “fear”, in fact the evaluation would not be influenced by these two negative feelings at all. So the thing is that users would not feel less satisfied if they feel angry or fear when they plays “killer” types of game, but feeling of sadness would significantly influence on their evaluation. We didn’t find much interesting things about the “social” type of games, which may result from the fact that the topic 1 we got from the topic model could be not so accurate.</p>
+</div>
+<div id="social-types-model" class="section level3">
+<h3>“Social”&quot; type’s Model</h3>
+<ul>
+<li><p><strong>parametric.anova</strong>:</p>
+<table>
+<caption>Anova for Parametric Effects</caption>
+<colgroup>
+<col width="39%" />
+<col width="8%" />
+<col width="12%" />
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Df</th>
+<th align="center">Sum Sq</th>
+<th align="center">Mean Sq</th>
+<th align="center">F value</th>
+<th align="center">Pr(&gt;F)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>lo(positive, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">111.7</td>
+<td align="center">111.7</td>
+<td align="center">55.52</td>
+<td align="center">2.989e-13</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>lo(negative, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">102</td>
+<td align="center">102</td>
+<td align="center">50.68</td>
+<td align="center">2.909e-12</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Residuals</strong></td>
+<td align="center">643.3</td>
+<td align="center">1294</td>
+<td align="center">2.012</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+<!-- end of list -->
+<ul>
+<li><p><strong>parametric.anova</strong>:</p>
+<table>
+<caption>Anova for Parametric Effects</caption>
+<colgroup>
+<col width="42%" />
+<col width="6%" />
+<col width="11%" />
+<col width="12%" />
+<col width="12%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Df</th>
+<th align="center">Sum Sq</th>
+<th align="center">Mean Sq</th>
+<th align="center">F value</th>
+<th align="center">Pr(&gt;F)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>lo(anticipation, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">13.69</td>
+<td align="center">13.69</td>
+<td align="center">7.291</td>
+<td align="center">0.007122</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>lo(trust, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">18.94</td>
+<td align="center">18.94</td>
+<td align="center">10.09</td>
+<td align="center">0.001564</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>lo(surprise, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">4.985</td>
+<td align="center">4.985</td>
+<td align="center">2.656</td>
+<td align="center">0.1037</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>lo(joy, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">32.57</td>
+<td align="center">32.57</td>
+<td align="center">17.35</td>
+<td align="center">3.547e-05</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>lo(sadness, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">131.9</td>
+<td align="center">131.9</td>
+<td align="center">70.29</td>
+<td align="center">3.486e-16</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>lo(anger, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">0.2594</td>
+<td align="center">0.2594</td>
+<td align="center">0.1382</td>
+<td align="center">0.7102</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>lo(fear, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">26.6</td>
+<td align="center">26.6</td>
+<td align="center">14.17</td>
+<td align="center">0.0001832</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>lo(disgust, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">5.701</td>
+<td align="center">5.701</td>
+<td align="center">3.037</td>
+<td align="center">0.08189</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Residuals</strong></td>
+<td align="center">616</td>
+<td align="center">1156</td>
+<td align="center">1.877</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+<!-- end of list -->
+<table style="width:24%;">
+<colgroup>
+<col width="9%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">RMSE</th>
+<th align="center">Rsquared</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1.441</td>
+<td align="center">0.1974</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="achieve-types-model" class="section level3">
+<h3>“Achieve” type’s model</h3>
+<ul>
+<li><p><strong>parametric.anova</strong>:</p>
+<table>
+<caption>Anova for Parametric Effects</caption>
+<colgroup>
+<col width="39%" />
+<col width="8%" />
+<col width="12%" />
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Df</th>
+<th align="center">Sum Sq</th>
+<th align="center">Mean Sq</th>
+<th align="center">F value</th>
+<th align="center">Pr(&gt;F)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>lo(positive, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">158.9</td>
+<td align="center">158.9</td>
+<td align="center">72.41</td>
+<td align="center">2.601e-16</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>lo(negative, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">67.79</td>
+<td align="center">67.79</td>
+<td align="center">30.9</td>
+<td align="center">4.652e-08</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Residuals</strong></td>
+<td align="center">451.8</td>
+<td align="center">991.1</td>
+<td align="center">2.194</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+<!-- end of list -->
+<ul>
+<li><p><strong>parametric.anova</strong>:</p>
+<table>
+<caption>Anova for Parametric Effects</caption>
+<colgroup>
+<col width="42%" />
+<col width="7%" />
+<col width="11%" />
+<col width="12%" />
+<col width="12%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Df</th>
+<th align="center">Sum Sq</th>
+<th align="center">Mean Sq</th>
+<th align="center">F value</th>
+<th align="center">Pr(&gt;F)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>lo(anticipation, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">48.1</td>
+<td align="center">48.1</td>
+<td align="center">22.49</td>
+<td align="center">2.886e-06</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>lo(trust, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">20.81</td>
+<td align="center">20.81</td>
+<td align="center">9.733</td>
+<td align="center">0.001933</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>lo(surprise, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">0.5277</td>
+<td align="center">0.5277</td>
+<td align="center">0.2468</td>
+<td align="center">0.6196</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>lo(joy, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">20.84</td>
+<td align="center">20.84</td>
+<td align="center">9.744</td>
+<td align="center">0.001922</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>lo(sadness, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">117.3</td>
+<td align="center">117.3</td>
+<td align="center">54.86</td>
+<td align="center">7.051e-13</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>lo(anger, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">3.985</td>
+<td align="center">3.985</td>
+<td align="center">1.864</td>
+<td align="center">0.1729</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>lo(fear, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">35.77</td>
+<td align="center">35.77</td>
+<td align="center">16.73</td>
+<td align="center">5.163e-05</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>lo(disgust, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">23.05</td>
+<td align="center">23.05</td>
+<td align="center">10.78</td>
+<td align="center">0.001111</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Residuals</strong></td>
+<td align="center">424.5</td>
+<td align="center">907.8</td>
+<td align="center">2.138</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+<!-- end of list -->
+<table style="width:24%;">
+<colgroup>
+<col width="9%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">RMSE</th>
+<th align="center">Rsquared</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1.454</td>
+<td align="center">0.2044</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="explore-types-model" class="section level3">
+<h3>“Explore” type’s model</h3>
+<ul>
+<li><p><strong>parametric.anova</strong>:</p>
+<table>
+<caption>Anova for Parametric Effects</caption>
+<colgroup>
+<col width="39%" />
+<col width="8%" />
+<col width="12%" />
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Df</th>
+<th align="center">Sum Sq</th>
+<th align="center">Mean Sq</th>
+<th align="center">F value</th>
+<th align="center">Pr(&gt;F)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>lo(positive, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">193.4</td>
+<td align="center">193.4</td>
+<td align="center">83.65</td>
+<td align="center">1.063e-18</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>lo(negative, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">17.15</td>
+<td align="center">17.15</td>
+<td align="center">7.417</td>
+<td align="center">0.006662</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Residuals</strong></td>
+<td align="center">564.9</td>
+<td align="center">1306</td>
+<td align="center">2.313</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+<!-- end of list -->
+<ul>
+<li><p><strong>parametric.anova</strong>:</p>
+<table>
+<caption>Anova for Parametric Effects</caption>
+<colgroup>
+<col width="42%" />
+<col width="7%" />
+<col width="11%" />
+<col width="12%" />
+<col width="12%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Df</th>
+<th align="center">Sum Sq</th>
+<th align="center">Mean Sq</th>
+<th align="center">F value</th>
+<th align="center">Pr(&gt;F)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>lo(anticipation, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">108.7</td>
+<td align="center">108.7</td>
+<td align="center">47.58</td>
+<td align="center">1.49e-11</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>lo(trust, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">33.32</td>
+<td align="center">33.32</td>
+<td align="center">14.58</td>
+<td align="center">0.0001497</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>lo(surprise, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">0.9574</td>
+<td align="center">0.9574</td>
+<td align="center">0.419</td>
+<td align="center">0.5177</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>lo(joy, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">21.58</td>
+<td align="center">21.58</td>
+<td align="center">9.446</td>
+<td align="center">0.002223</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>lo(sadness, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">28.11</td>
+<td align="center">28.11</td>
+<td align="center">12.3</td>
+<td align="center">0.0004903</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>lo(anger, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">0.201</td>
+<td align="center">0.201</td>
+<td align="center">0.08798</td>
+<td align="center">0.7669</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>lo(fear, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">29.02</td>
+<td align="center">29.02</td>
+<td align="center">12.7</td>
+<td align="center">0.0003976</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>lo(disgust, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">1.714</td>
+<td align="center">1.714</td>
+<td align="center">0.7502</td>
+<td align="center">0.3868</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Residuals</strong></td>
+<td align="center">538.3</td>
+<td align="center">1230</td>
+<td align="center">2.285</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+<!-- end of list -->
+<table style="width:24%;">
+<colgroup>
+<col width="9%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">RMSE</th>
+<th align="center">Rsquared</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1.498</td>
+<td align="center">0.1562</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="killer-types-model" class="section level3">
+<h3>“Killer” type’s model</h3>
+<ul>
+<li><p><strong>parametric.anova</strong>:</p>
+<table>
+<caption>Anova for Parametric Effects</caption>
+<colgroup>
+<col width="39%" />
+<col width="8%" />
+<col width="12%" />
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Df</th>
+<th align="center">Sum Sq</th>
+<th align="center">Mean Sq</th>
+<th align="center">F value</th>
+<th align="center">Pr(&gt;F)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>lo(positive, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">42.41</td>
+<td align="center">42.41</td>
+<td align="center">19.01</td>
+<td align="center">1.72e-05</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>lo(negative, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">125.7</td>
+<td align="center">125.7</td>
+<td align="center">56.36</td>
+<td align="center">5.265e-13</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Residuals</strong></td>
+<td align="center">342.9</td>
+<td align="center">764.8</td>
+<td align="center">2.231</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+<!-- end of list -->
+<ul>
+<li><p><strong>parametric.anova</strong>:</p>
+<table>
+<caption>Anova for Parametric Effects</caption>
+<colgroup>
+<col width="42%" />
+<col width="7%" />
+<col width="11%" />
+<col width="12%" />
+<col width="12%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Df</th>
+<th align="center">Sum Sq</th>
+<th align="center">Mean Sq</th>
+<th align="center">F value</th>
+<th align="center">Pr(&gt;F)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>lo(anticipation, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">13.56</td>
+<td align="center">13.56</td>
+<td align="center">6.305</td>
+<td align="center">0.01254</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>lo(trust, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">36.99</td>
+<td align="center">36.99</td>
+<td align="center">17.2</td>
+<td align="center">4.325e-05</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>lo(surprise, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">1.18</td>
+<td align="center">1.18</td>
+<td align="center">0.5486</td>
+<td align="center">0.4594</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>lo(joy, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">8.388</td>
+<td align="center">8.388</td>
+<td align="center">3.9</td>
+<td align="center">0.04915</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>lo(sadness, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">118.4</td>
+<td align="center">118.4</td>
+<td align="center">55.05</td>
+<td align="center">1.097e-12</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>lo(anger, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">3.315</td>
+<td align="center">3.315</td>
+<td align="center">1.541</td>
+<td align="center">0.2153</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>lo(fear, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">2.778</td>
+<td align="center">2.778</td>
+<td align="center">1.292</td>
+<td align="center">0.2566</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>lo(disgust, span = 0.5, degree = 1)</strong></td>
+<td align="center">1</td>
+<td align="center">9.84</td>
+<td align="center">9.84</td>
+<td align="center">4.576</td>
+<td align="center">0.0332</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Residuals</strong></td>
+<td align="center">315.7</td>
+<td align="center">679</td>
+<td align="center">2.151</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+</tbody>
+</table></li>
+</ul>
+<!-- end of list -->
+<table style="width:24%;">
+<colgroup>
+<col width="9%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">RMSE</th>
+<th align="center">Rsquared</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1.444</td>
+<td align="center">0.1584</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 
 
 
+</div>
+</div>
 
 </div>
 
