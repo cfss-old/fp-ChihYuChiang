@@ -108,7 +108,7 @@ bing <-  get_sentiments("bing") %>%
 ### Word Frequency  
 After the determination about the types of video games, we wanted to get a general and basic idea about the word used in those kinds of games. As we see blow about the bar plots, there is some evidence which can prove our topic model’s validity. Though the word “time” is the most frequently used positive word in all four types of games, we can see that for social game, the word “fun” comes second. While for the “achieve” type, the second important positive word is power. Also we can see the second positive word for “explore” type of game is “adventure”, which is very easy for us to understand. As for the “killer” type, although we cannot get an explicit evidence about the positive word, we can see the most frequently used negative word stems are “chanlleng” and “oppon”.
 
-```{r, echo=FALSE, warning=FALSE}
+```{r, echo=FALSE,fig.width=4.2, fig.show='hold'}
 Topic1_bing_word_counts <- Topic1_text %>%
   inner_join(bing, by = "word") %>%
   count(word, sentiment, sort = TRUE) %>%
@@ -122,7 +122,8 @@ Topic1_bing_word_counts %>%
   geom_bar(alpha = 0.8, stat = "identity") +
   labs(y = "Contribution to sentiment",
        x = "Social") +
-  coord_flip()
+  coord_flip() +
+  scale_fill_discrete(guide = FALSE)
 
 #get the plot about the sentiment word most frequently used in game reviews
 Topic2_bing_word_counts <- Topic2_text %>%
@@ -138,8 +139,12 @@ Topic2_bing_word_counts %>%
   geom_bar(alpha = 0.8, stat = "identity") +
   labs(y = "Contribution to sentiment",
        x = "Achieve") +
-  coord_flip()
+  coord_flip() +
+  scale_fill_discrete(guide = FALSE)
 
+```
+
+```{r, echo=FALSE,fig.width=4.2, fig.show='hold'}
 #get the plot about the sentiment word most frequently used in game reviews
 Topic3_bing_word_counts <- Topic3_text %>%
   inner_join(bing, by = "word") %>%
@@ -154,7 +159,8 @@ Topic3_bing_word_counts %>%
   geom_bar(alpha = 0.8, stat = "identity") +
   labs(y = "Contribution to sentiment",
        x = "Explore") +
-  coord_flip()
+  coord_flip() +
+  scale_fill_discrete(guide = FALSE)
 
 #get the plot about the sentiment word most frequently used in game reviews
 Topic4_bing_word_counts <- Topic4_text %>%
@@ -170,13 +176,14 @@ Topic4_bing_word_counts %>%
   geom_bar(alpha = 0.8, stat = "identity") +
   labs(y = "Contribution to sentiment",
        x = "Killer") +
-  coord_flip()
+  coord_flip() +
+  scale_fill_discrete(guide = FALSE)
 ```
 
 ### Sentiment word using  
 Then we wanted to compare the proportion of different sentiment words used in different kinds of game reviews. Maybe it is a little bit difficult to tell, we still find the difference among those four kinds of games. Compared with high-quality “social” video games (high evaluation scores), there would be more words about anger, fear and less words about joy in the review of high-quality “achieve” video games. Also we found out the feeling of “anticipation” plays an important roles in high-quality “explore” video games.
 
-```{r, echo=FALSE, warning=FALSE}
+```{r, echo=FALSE,fig.width=4.2, fig.show='hold'}
 Topic1_level <- Topic1_text %>%
   mutate(level = ifelse(GSScore.x > 8.5, "high",
                         ifelse(GSScore.x < 5, "low", "medium"))) %>%
@@ -199,7 +206,8 @@ Topic1_text_sent_nrc_analysis %>%
   geom_bar(aes(fill = sentiment), stat = "identity")+
   facet_wrap(~ level, nrow = 2)+
   ggtitle("The different types of sentiment words proportion in game reviews-social")+
-  coord_polar()
+  coord_polar() +
+  scale_fill_discrete(guide = FALSE)
 
 Topic2_level <- Topic2_text %>%
   mutate(level = ifelse(GSScore.x > 8.5, "high",
@@ -223,8 +231,11 @@ Topic2_text_sent_nrc_analysis %>%
   geom_bar(aes(fill = sentiment), stat = "identity")+
   facet_wrap(~ level, nrow = 2)+
   ggtitle("The different types of sentiment words proportion in game reviews-achieve")+
-  coord_polar()
+  coord_polar() +
+  scale_fill_discrete(guide = FALSE)
+```
 
+```{r, echo=FALSE,fig.width=4.2, fig.show='hold'}
 Topic3_level <- Topic3_text %>%
   mutate(level = ifelse(GSScore.x > 8.5, "high",
                         ifelse(GSScore.x < 5, "low", "medium"))) %>%
@@ -247,7 +258,8 @@ Topic3_text_sent_nrc_analysis %>%
   geom_bar(aes(fill = sentiment), stat = "identity")+
   facet_wrap(~ level, nrow = 2)+
   ggtitle("The different types of sentiment words proportion in game reviews-explore")+
-  coord_polar()
+  coord_polar() +
+  scale_fill_discrete(guide = FALSE)
 
 Topic4_level <- Topic4_text %>%
   mutate(level = ifelse(GSScore.x > 8.5, "high",
@@ -271,11 +283,14 @@ Topic4_text_sent_nrc_analysis %>%
   geom_bar(aes(fill = sentiment), stat = "identity")+
   facet_wrap(~ level, nrow = 2)+
   ggtitle("The different types of sentiment words proportion in game reviews-killer")+
-  coord_polar()
+  coord_polar() +
+  scale_fill_discrete(guide = FALSE)
 ```
 
 ### Model Building  
-At last, we tried to get more solid evidence about our findings by building models. Firstly, by using ggplot, we show the linear relationship between different kinds of sentiment and the evaluation score. It is interesting that except for “sadness” which seems to play a significant role in all kinds of games, the relationships are quite weak. The most convincing negative relationship between negative word used and the evaluation scores is find in the “killer” type. While for the relationship of positive word using and the evaluation score for the “killer” type games become the weakest compared with other three types of game.
+At last, we tried to get more solid evidence about our findings by building models. Firstly, by using ggplot, we show the linear relationship between different kinds of sentiment and the evaluation score. It is interesting that except for “sadness” which seems to play a significant role in all kinds of games, the relationships are quite weak. The most convincing negative relationship between negative word used and the evaluation scores is find in the “killer” type. While for the relationship of positive word using and the evaluation score for the “killer” type games become the weakest compared with other three types of game.  
+
+Then we used GAM model, which is proved to be the best model in previous analysis, to testify these relationships. What we should notice at first is that the models built for “social” and “achieve” types of games are better according to the MSE and RSquare value. But since the datasets are not so big after we make the division about these types, we think these four models are all acceptable. Through the comparison, we found that positive feelings are more important for the “explore” types of video games, while negative feelings play the weakest role for the evaluation. This finding can be understood since for people who enjoy exploration, they would probably get ready for facing different unknown situation. Compared with avoiding the negative feeling, they are more likely to value the positive feelings by open themselves to all kinds of situations. While for the “killer” types, negative feelings are more important for the evaluation, and it becomes more interesting when we see the subtype of negative feelings’ influence on the evaluation of “killer” types of games. Apparently this strong negative relationships are because of “anger” or “fear”, in fact the evaluation would not be influenced by these two negative feelings at all. So the thing is that users would not feel less satisfied if they feel angry or fear when they plays “killer” types of game, but feeling of sadness would significantly influence on their evaluation. We didn’t find much interesting things about the “social” type of games, which may result from the fact that the topic 1 we got from the topic model could be not so accurate.
 ```{r, echo=FALSE, warning=FALSE}
 Topic1_text_tfidf <- Topic1_text %>%
   group_by(GameTitle) %>%
@@ -321,9 +336,9 @@ Topic4_text_sentCount <- Topic4_text %>%
   count(word)
 ```
 
-### The relationship between negative words and evaluation score
+#### The relationship between negative words and evaluation score
 
-```{r, echo=FALSE, warning=FALSE}
+```{r, echo=FALSE,fig.width=4.2, fig.show='hold'}
 Topic1_text_sentTfidf <- Topic1_text_tfidf %>%
   left_join(Topic1_text_sentCount, by = "word") %>%
   group_by(GameTitle, sentiment) %>%
@@ -363,7 +378,9 @@ ggplot(filter(Topic2_text_sentTfidf_plt, sentiment %in% c("anger", "disgust", "f
   geom_smooth(method = lm) +
   facet_wrap(~ sentiment)+
   ggtitle("Achieve")
+```
 
+```{r, echo=FALSE,fig.width=4.2, fig.show='hold'}
 Topic3_text_sentTfidf <- Topic3_text_tfidf %>%
   left_join(Topic3_text_sentCount, by = "word") %>%
   group_by(GameTitle, sentiment) %>%
@@ -405,9 +422,9 @@ ggplot(filter(Topic4_text_sentTfidf_plt, sentiment %in% c("anger", "disgust", "f
   ggtitle("Killer")
 ```
 
-### The relationship between positive words and evaluation score
+#### The relationship between positive words and evaluation score
 
-```{r, echo=FALSE, warning=FALSE}
+```{r, echo=FALSE,fig.width=4.2, fig.show='hold'}
 ggplot(filter(Topic1_text_sentTfidf_plt, sentiment %in% c("anticipation", "joy", "surprise", "trust")),
        aes(tfidf, GSScore)) + 
   geom_jitter(height = 0.1, width = 0.1, alpha = 0.2) +
@@ -421,7 +438,9 @@ ggplot(filter(Topic2_text_sentTfidf_plt, sentiment %in% c("anticipation", "joy",
   geom_smooth(method = lm) +
   facet_wrap(~ sentiment)+
   ggtitle("Achieve")
+```
 
+```{r, echo=FALSE,fig.width=4.2, fig.show='hold'}
 ggplot(filter(Topic3_text_sentTfidf_plt, sentiment %in% c("anticipation", "joy", "surprise", "trust")),
        aes(tfidf, GSScore)) + 
   geom_jitter(height = 0.1, width = 0.1, alpha = 0.2) +
@@ -437,12 +456,9 @@ ggplot(filter(Topic4_text_sentTfidf_plt, sentiment %in% c("anticipation", "joy",
   ggtitle("Killer")
 ```
 
-Then we used GAM model, which is proved to be the best model in previous analysis, to testify these relationships. What we should notice at first is that the models built for “social” and “achieve” types of games are better according to the MSE and RSquare value. But since the datasets are not so big after we make the division about these types, we think these four models are all acceptable. Through the comparison, we found that positive feelings are more important for the “explore” types of video games, while negative feelings play the weakest role for the evaluation. This finding can be understood since for people who enjoy exploration, they would probably get ready for facing different unknown situation. Compared with avoiding the negative feeling, they are more likely to value the positive feelings by open themselves to all kinds of situations. While for the “killer” types, negative feelings are more important for the evaluation, and it becomes more interesting when we see the subtype of negative feelings’ influence on the evaluation of “killer” types of games. Apparently this strong negative relationships are because of “anger” or “fear”, in fact the evaluation would not be influenced by these two negative feelings at all. So the thing is that users would not feel less satisfied if they feel angry or fear when they plays “killer” types of game, but feeling of sadness would significantly influence on their evaluation. We didn’t find much interesting things about the “social” type of games, which may result from the fact that the topic 1 we got from the topic model could be not so accurate.
+<!-- ### "Social" type's Model -->
 
-
-### "Social" type's Model
-
-```{r, echo=FALSE, warning=FALSE, message = FALSE}
+```{r, echo=FALSE, warning=FALSE, message = FALSE, include = FALSE}
 Topic1_text_sentTfidf <- Topic1_text_sentTfidf %>%
   mutate(GSScore_cat1 = cut(GSScore,
                             c(0, (mean(text_sentTfidf$GSScore) - sd(text_sentTfidf$GSScore)), (mean(text_sentTfidf$GSScore) + sd(text_sentTfidf$GSScore)), 10),
@@ -472,8 +488,8 @@ pander(postResample(pred = Topic1_gam_pred, obs = Topic1_testing$GSScore))
 ```
 
 
-### "Achieve" type's model
-```{r, echo=FALSE, warning=FALSE, message = FALSE}
+<!-- ### "Achieve" type's model -->
+```{r, echo=FALSE, warning=FALSE, message = FALSE, include = FALSE}
 Topic2_text_sentTfidf <- Topic2_text_sentTfidf %>%
   mutate(GSScore_cat1 = cut(GSScore,
                             c(0, (mean(text_sentTfidf$GSScore) - sd(text_sentTfidf$GSScore)), (mean(text_sentTfidf$GSScore) + sd(text_sentTfidf$GSScore)), 10),
@@ -498,9 +514,9 @@ pander(postResample(pred = Topic2_gam_pred, obs = Topic2_testing$GSScore))
 ```
 
 
-### "Explore" type's model
+<!-- ### "Explore" type's model -->
 
-```{r, echo=FALSE, warning=FALSE, message = FALSE}
+```{r, echo=FALSE, warning=FALSE, message = FALSE, include = FALSE}
 Topic3_text_sentTfidf <- Topic3_text_sentTfidf %>%
   mutate(GSScore_cat1 = cut(GSScore,
                             c(0, (mean(text_sentTfidf$GSScore) - sd(text_sentTfidf$GSScore)), (mean(text_sentTfidf$GSScore) + sd(text_sentTfidf$GSScore)), 10),
@@ -524,9 +540,9 @@ pander(postResample(pred = Topic3_gam_pred, obs = Topic3_testing$GSScore))
 ```
 
 
-### "Killer" type's model
+<!-- ### "Killer" type's model -->
 
-```{r, echo=FALSE, warning=FALSE, message = FALSE}
+```{r, echo=FALSE, warning=FALSE, message = FALSE, include = FALSE}
 
 Topic4_text_sentTfidf <- Topic4_text_sentTfidf %>%
   mutate(GSScore_cat1 = cut(GSScore,
