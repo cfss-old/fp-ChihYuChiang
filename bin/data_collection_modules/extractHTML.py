@@ -2,6 +2,7 @@
 from bs4 import BeautifulSoup
 import pandas as pd
 import numpy as np
+import re
 
 
 def extractSoup(soup, filename, webSource):
@@ -16,7 +17,7 @@ def extractSoup(soup, filename, webSource):
 
     return extracted
 
-    
+
 def extract_GameSpot(soup, filename):
     # Game title
     try: gameTitle = soup.find(class_ = 'related-game__title').a.get_text()
@@ -160,6 +161,9 @@ def extract_Polygon(soup, filename):
     try: gameTitle = soup.h1.get_text()
     except: gameTitle = None
 
+    try: gameTitle = re.sub(' review.*', '', gameTitle, flags=re.IGNORECASE)
+    except: gameTitle = None
+
     #Review
     PolyReview = ''
     try:
@@ -216,10 +220,21 @@ def extract_Polygon(soup, filename):
 
     return df_main
 
-    
+
 def extract_GamesRadar(soup, filename):
     #Game title
-    try: gameTitle = filename#soup.find(class_ = 'score-area').h4.get_text().rstrip().lstrip()
+    try: gameTitle = soup.select('.review-title-long')[0].get_text()
+    except: gameTitle = None
+
+    if gameTitle == None:
+        try: gameTitle = soup.select('.review-title-medium')[0].get_text()
+        except: gameTitle = None
+
+    if gameTitle == None:
+        try: gameTitle = soup.select('.review-title-standard')[0].get_text()
+        except: gameTitle = None
+
+    try: gameTitle = re.sub(' review.*', '', gameTitle, flags=re.IGNORECASE)
     except: gameTitle = None
 
     #Review score
@@ -235,7 +250,7 @@ def extract_GamesRadar(soup, filename):
         for divs in soup.find_all('div', attrs={"class" : "text-copy bodyCopy auto"}):
             for ptag in divs.find_all('p'):
                 result = ptag.text
-                Review = Review + '' + result
+                Review = Review + ' ' + result
     except: Review = None
 
     #Author

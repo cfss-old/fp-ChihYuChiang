@@ -2,7 +2,6 @@
 title: "Sentiments' Effect on Different Game Experiences"
 author: |
   | Chih-Yu Chiang • chihyuchiang@uchicago.edu
-  | Shun Wang • shunwang@uchicago.edu
 output:
   html_document:
     toc: true
